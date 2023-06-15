@@ -3,11 +3,16 @@ import {
   MsgType,
   TxMsg,
   TxMsgClaimRewards,
+  TxMsgClearAdmin,
   TxMsgDelegate,
+  TxMsgExecuteContract,
+  TxMsgInstantiateContract,
+  TxMsgMigrateContract,
   TxMsgRedelegate,
   TxMsgSend,
   TxMsgSetWithdrawAddress,
   TxMsgUndelegate,
+  TxMsgUpdateAdmin,
 } from "../types/txMsg";
 
 const isTxMsgSend = (msg: TxMsg | EncodeObject): msg is TxMsgSend =>
@@ -19,6 +24,21 @@ const isTxMsgSend = (msg: TxMsg | EncodeObject): msg is TxMsgSend =>
   !!msg.value.fromAddress &&
   !!msg.value.toAddress &&
   !!msg.value.amount.length;
+
+const isTxMsgExecuteContract = (msg: TxMsg | EncodeObject): msg is TxMsgExecuteContract =>
+  msg.typeUrl === "/cosmwasm.wasm.v1.MsgExecuteContract";
+
+const isTxMsgInstantiateContract = (msg: TxMsg | EncodeObject): msg is TxMsgInstantiateContract =>
+  msg.typeUrl === "/cosmwasm.wasm.v1.MsgInstantiateContract";
+
+const isTxMsgMigrateContract = (msg: TxMsg | EncodeObject): msg is TxMsgMigrateContract =>
+  msg.typeUrl === "/cosmwasm.wasm.v1.MsgMigrateContract";
+
+const isTxMsgUpdateAdmin = (msg: TxMsg | EncodeObject): msg is TxMsgUpdateAdmin =>
+  msg.typeUrl === "/cosmwasm.wasm.v1.MsgUpdateAdmin";
+
+const isTxMsgClearAdmin = (msg: TxMsg | EncodeObject): msg is TxMsgClearAdmin =>
+  msg.typeUrl === "/cosmwasm.wasm.v1.MsgClearAdmin";
 
 const isTxMsgDelegate = (msg: TxMsg | EncodeObject): msg is TxMsgDelegate =>
   msg.typeUrl === "/cosmos.staking.v1beta1.MsgDelegate" &&
@@ -82,6 +102,16 @@ const gasOfMsg = (msgType: MsgType): number => {
       return 100_000;
     case "setWithdrawAddress":
       return 100_000;
+    case "executeContract":
+      return 1_000_000;
+    case "instantiateContract":
+      return 1_000_000;
+    case "migrateContract":
+      return 1_000_000;
+    case "updateAdmin":
+      return 100_000;
+    case "clearAdmin":
+      return 100_000;
     default:
       throw new Error("Unknown msg type");
   }
@@ -100,6 +130,11 @@ export {
   isTxMsgRedelegate,
   isTxMsgClaimRewards,
   isTxMsgSetWithdrawAddress,
+  isTxMsgExecuteContract,
+  isTxMsgInstantiateContract,
+  isTxMsgMigrateContract,
+  isTxMsgUpdateAdmin,
+  isTxMsgClearAdmin,
   gasOfMsg,
   gasOfTx,
 };

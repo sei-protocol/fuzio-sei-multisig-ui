@@ -80,7 +80,7 @@ const CreateTxForm = ({ router, senderAddress, accountOnChain }: CreateTxFormPro
 
       router.push(`${senderAddress}/transaction/${transactionID}`);
     } catch (error) {
-      console.error("Creat transaction error:", error);
+      console.error("Create transaction error:", error);
     } finally {
       setProcessing(false);
     }
@@ -89,29 +89,32 @@ const CreateTxForm = ({ router, senderAddress, accountOnChain }: CreateTxFormPro
   return (
     <StackableContainer lessPadding>
       <h2>Create New Transaction</h2>
-      {msgTypes.map((msgType, index) => (
-        <MsgForm
-          key={getMsgFormKey(msgType, msgGetters.current[index]?.msg ?? {})}
-          msgType={msgType}
-          senderAddress={senderAddress}
-          setMsgGetter={(msgGetter) => {
-            msgGetters.current = [
-              ...msgGetters.current.slice(0, index),
-              msgGetter,
-              ...msgGetters.current.slice(index + 1),
-            ];
-          }}
-          deleteMsg={() => {
-            msgGetters.current.splice(index, 1);
-            setMsgTypes((oldMsgTypes) => {
-              const newMsgTypes: MsgType[] = oldMsgTypes.slice();
-              newMsgTypes.splice(index, 1);
-              setGasLimit(gasOfTx(newMsgTypes));
-              return newMsgTypes;
-            });
-          }}
-        />
-      ))}
+      {msgTypes.map((msgType, index) => {
+        console.log(msgType);
+        return (
+          <MsgForm
+            key={getMsgFormKey(msgType, msgGetters.current[index]?.msg ?? {})}
+            msgType={msgType}
+            senderAddress={senderAddress}
+            setMsgGetter={(msgGetter) => {
+              msgGetters.current = [
+                ...msgGetters.current.slice(0, index),
+                msgGetter,
+                ...msgGetters.current.slice(index + 1),
+              ];
+            }}
+            deleteMsg={() => {
+              msgGetters.current.splice(index, 1);
+              setMsgTypes((oldMsgTypes) => {
+                const newMsgTypes: MsgType[] = oldMsgTypes.slice();
+                newMsgTypes.splice(index, 1);
+                setGasLimit(gasOfTx(newMsgTypes));
+                return newMsgTypes;
+              });
+            }}
+          />
+        );
+      })}
       <div className="form-item">
         <Input
           type="number"
@@ -139,6 +142,7 @@ const CreateTxForm = ({ router, senderAddress, accountOnChain }: CreateTxFormPro
         />
       </div>
       <StackableContainer>
+        <h3>Cosmos</h3>
         <Button label="Add MsgSend" onClick={() => addMsgType("send")} />
         <Button label="Add MsgDelegate" onClick={() => addMsgType("delegate")} />
         <Button label="Add MsgUndelegate" onClick={() => addMsgType("undelegate")} />
@@ -148,6 +152,17 @@ const CreateTxForm = ({ router, senderAddress, accountOnChain }: CreateTxFormPro
           label="Add MsgSetWithdrawAddress"
           onClick={() => addMsgType("setWithdrawAddress")}
         />
+      </StackableContainer>
+      <StackableContainer>
+        <h3>CosmWasm</h3>
+        <Button label="Add MsgExecuteContract" onClick={() => addMsgType("executeContract")} />
+        <Button
+          label="Add MsgInstantiateContract"
+          onClick={() => addMsgType("instantiateContract")}
+        />
+        <Button label="Add MsgMigrateContract" onClick={() => addMsgType("migrateContract")} />
+        <Button label="Add MsgUpdateAdmin" onClick={() => addMsgType("updateAdmin")} />
+        <Button label="Add MsgClearAdmin" onClick={() => addMsgType("clearAdmin")} />
       </StackableContainer>
       <Button
         label="Create Transaction"

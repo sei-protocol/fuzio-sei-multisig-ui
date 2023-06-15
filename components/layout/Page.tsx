@@ -39,7 +39,7 @@ const Page = ({ title, goBack, children }: PageProps) => {
 
   return (
     <div className="page">
-      <Head title={title || "Cosmos Multisig Manager"} />
+      <Head title={title || "Fuzio Multisig Manager"} />
       <StackableContainer>
         {goBack ? (
           <StackableContainer
@@ -67,7 +67,7 @@ const Page = ({ title, goBack, children }: PageProps) => {
       <div className="footer-links">
         <StackableContainer base lessPadding lessMargin>
           <p>
-            <a href="https://github.com/samepant/cosmoshub-legacy-multisig">View on github</a>
+            <a href="https://github.com/fuzio-defi-network/sei-multisig-ui">View on github</a>
           </p>
         </StackableContainer>
       </div>
@@ -93,7 +93,7 @@ const Page = ({ title, goBack, children }: PageProps) => {
             Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
           color: white;
           min-height: 100vh;
-          background: linear-gradient(240.16deg, #3f023c 10.46%, #561253 54.88%, #580a55 94.89%);
+          background: linear-gradient(240.16deg, #2d3b5f 10.46%, #293351 54.88%, #232341 94.89%);
           font-size: 16px;
           margin: 0;
         }

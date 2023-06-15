@@ -4,7 +4,12 @@ export type MsgType =
   | "undelegate"
   | "redelegate"
   | "claimRewards"
-  | "setWithdrawAddress";
+  | "setWithdrawAddress"
+  | "executeContract"
+  | "instantiateContract"
+  | "migrateContract"
+  | "updateAdmin"
+  | "clearAdmin";
 
 export type TxMsg =
   | TxMsgSend
@@ -12,7 +17,64 @@ export type TxMsg =
   | TxMsgUndelegate
   | TxMsgRedelegate
   | TxMsgClaimRewards
-  | TxMsgSetWithdrawAddress;
+  | TxMsgSetWithdrawAddress
+  | TxMsgExecuteContract
+  | TxMsgInstantiateContract
+  | TxMsgUpdateAdmin
+  | TxMsgClearAdmin
+  | TxMsgMigrateContract;
+
+export interface TxMsgExecuteContract {
+  readonly typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract";
+  readonly value: {
+    readonly contract: string;
+    readonly sender: string;
+    readonly msg: Uint8Array;
+    readonly funds?: [{ readonly amount: string; readonly denom: string }];
+  };
+}
+
+export interface TxMsgInstantiateContract {
+  readonly typeUrl: "/cosmwasm.wasm.v1.MsgInstantiateContract";
+  readonly value: {
+    readonly sender: string;
+    readonly codeId: number;
+    readonly label: string;
+    readonly msg: Uint8Array;
+    readonly funds?: [{ readonly amount: string; readonly denom: string }];
+    readonly admin: string;
+  };
+}
+
+export interface TxMsgUpdateAdmin {
+  readonly typeUrl: "/cosmwasm.wasm.v1.MsgUpdateAdmin";
+  readonly value: {
+    sender: string;
+    contract: string;
+    newAdmin: string;
+    readonly funds?: [{ readonly amount: string; readonly denom: string }];
+  };
+}
+
+export interface TxMsgClearAdmin {
+  readonly typeUrl: "/cosmwasm.wasm.v1.MsgClearAdmin";
+  readonly value: {
+    sender: string;
+    contract: string;
+    readonly funds?: [{ readonly amount: string; readonly denom: string }];
+  };
+}
+
+export interface TxMsgMigrateContract {
+  readonly typeUrl: "/cosmwasm.wasm.v1.MsgMigrateContract";
+  readonly value: {
+    sender: string;
+    contract: string;
+    codeId: number;
+    msg: Uint8Array;
+    readonly funds?: [{ readonly amount: string; readonly denom: string }];
+  };
+}
 
 export interface TxMsgSend {
   readonly typeUrl: "/cosmos.bank.v1beta1.MsgSend";

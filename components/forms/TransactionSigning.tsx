@@ -1,11 +1,11 @@
 import { MultisigThresholdPubkey, makeCosmoshubPath } from "@cosmjs/amino";
-import { toBase64 } from "@cosmjs/encoding";
+import { fromUtf8, toBase64 } from "@cosmjs/encoding";
 import { LedgerSigner } from "@cosmjs/ledger-amino";
-import { SigningStargateClient } from "@cosmjs/stargate";
+import { SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate";
 import { assert } from "@cosmjs/utils";
 import TransportWebUSB from "@ledgerhq/hw-transport-webusb";
 import axios from "axios";
-import { useCallback, useLayoutEffect, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useState } from "react";
 import { useAppContext } from "../../context/AppContext";
 import { getConnectError } from "../../lib/errorHelpers";
 import { DbSignature, DbTransaction, WalletAccount } from "../../types";
@@ -147,13 +147,55 @@ const TransactionSigning = (props: Props) => {
 
       const signerAddress = walletAccount?.bech32Address;
       assert(signerAddress, "Missing signer address");
-      const signingClient = await SigningStargateClient.offline(offlineSigner);
+      const signingClient = await SigningCosmWasmClient.offline(offlineSigner);
 
       const signerData = {
         accountNumber: props.tx.accountNumber,
         sequence: props.tx.sequence,
         chainId: state.chain.chainId,
       };
+
+      for (const msg of props.tx.msgs) {
+        if (msg.typeUrl === "/cosmwasm.wasm.v1.MsgExecuteContract") {
+          const array: Array<number> = [];
+          Object.values(msg.value.msg).map((entry) => {
+            array.push(entry as number);
+          });
+          const uint8Array = new Uint8Array(array);
+          const executeMessage = JSON.parse(fromUtf8(uint8Array));
+          console.log(executeMessage);
+
+          msg.value.msg = uint8Array;
+        }
+        if (msg.typeUrl === "/cosmwasm.wasm.v1.MsgInstantiateContract") {
+          const array: Array<number> = [];
+          Object.values(msg.value.msg).map((entry) => {
+            array.push(entry as number);
+          });
+          const uint8Array = new Uint8Array(array);
+          const executeMessage = JSON.parse(fromUtf8(uint8Array));
+          console.log(executeMessage);
+
+          msg.value.msg = uint8Array;
+        }
+        if (msg.typeUrl === "/cosmwasm.wasm.v1.MsgMigrateContract") {
+          const array: Array<number> = [];
+          Object.values(msg.value.msg).map((entry) => {
+            array.push(entry as number);
+          });
+          const uint8Array = new Uint8Array(array);
+          const executeMessage = JSON.parse(fromUtf8(uint8Array));
+          console.log(executeMessage);
+
+          msg.value.msg = uint8Array;
+        }
+        if (msg.typeUrl === "/cosmwasm.wasm.v1.MsgUpdateAdmin") {
+          console.log(msg);
+        }
+        if (msg.typeUrl === "/cosmwasm.wasm.v1.MsgClearAdmin") {
+          console.log(msg);
+        }
+      }
 
       const { bodyBytes, signatures } = await signingClient.sign(
         signerAddress,
