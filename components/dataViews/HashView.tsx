@@ -1,5 +1,5 @@
-import { ellideMiddle } from "../../lib/displayHelpers";
-import CopyAndPaste from "./CopyAndPaste";
+import { ellideMiddle } from '../../lib/displayHelpers';
+import CopyAndPaste from './CopyAndPaste';
 
 interface Props {
   hash: string;

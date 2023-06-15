@@ -1,11 +1,15 @@
-import React from "react";
+import React from 'react';
 
 interface Props {
   color: string;
 }
 const Gear = (props: Props) => (
   <i>
-    <svg viewBox="0 0 640 640" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg
+      viewBox="0 0 640 640"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <path
         fillRule="evenodd"
         clipRule="evenodd"

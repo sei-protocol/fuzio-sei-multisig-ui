@@ -1,15 +1,14 @@
-import { Decimal } from "@cosmjs/math";
-import { assert } from "@cosmjs/utils";
-import { useEffect, useState } from "react";
-import { MsgGetter } from "..";
-import { useAppContext } from "../../../../context/AppContext";
-import { exampleAddress } from "../../../../lib/displayHelpers";
-import { isTxMsgExecuteContract } from "../../../../lib/txMsgHelpers";
-import { TxMsg, TxMsgDelegate, TxMsgExecuteContract } from "../../../../types/txMsg";
-import Input from "../../../inputs/Input";
-import StackableContainer from "../../../layout/StackableContainer";
-import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
-import { fromUtf8, toUtf8 } from "@cosmjs/encoding";
+import { Decimal } from '@cosmjs/math';
+import { assert } from '@cosmjs/utils';
+import { useEffect, useState } from 'react';
+import { MsgGetter } from '..';
+import { useAppContext } from '../../../../context/AppContext';
+import { exampleAddress } from '../../../../lib/displayHelpers';
+import { isTxMsgExecuteContract } from '../../../../lib/txMsgHelpers';
+import { TxMsg, TxMsgExecuteContract } from '../../../../types/txMsg';
+import Input from '../../../inputs/Input';
+import StackableContainer from '../../../layout/StackableContainer';
+import { toUtf8 } from '@cosmjs/encoding';
 
 interface MsgExecuteContractFormProps {
   readonly address: string;
@@ -23,25 +22,25 @@ const MsgExecuteContractForm = ({
   deleteMsg,
 }: MsgExecuteContractFormProps) => {
   const { state } = useAppContext();
-  assert(state.chain.addressPrefix, "addressPrefix missing");
+  assert(state.chain.addressPrefix, 'addressPrefix missing');
 
   const [contractAddress, setContractAddress] = useState(
-    "sei14n07r30dhcxnym2p2mahcd9my2nqfeq55a0jwdpph59cgumhhj4smp4974",
+    'sei14n07r30dhcxnym2p2mahcd9my2nqfeq55a0jwdpph59cgumhhj4smp4974',
   );
   const [executeMessage, setExecuteMessage] = useState(`{"swap":{}}`);
 
-  const [validatorAddressError, setValidatorAddressError] = useState("");
-  const [amountError, setAmountError] = useState("");
+  const [validatorAddressError, setValidatorAddressError] = useState('');
+  const [amountError, setAmountError] = useState('');
 
   useEffect(() => {
     try {
-      assert(state.chain.denom, "denom missing");
+      assert(state.chain.denom, 'denom missing');
 
-      setValidatorAddressError("");
-      setAmountError("");
+      setValidatorAddressError('');
+      setAmountError('');
 
       const isMsgValid = (msg: TxMsg): msg is TxMsgExecuteContract => {
-        assert(state.chain.addressPrefix, "addressPrefix missing");
+        assert(state.chain.addressPrefix, 'addressPrefix missing');
 
         // const addressErrorMsg = checkAddress(validatorAddress, state.chain.addressPrefix);
         // if (addressErrorMsg) {
@@ -60,18 +59,18 @@ const MsgExecuteContractForm = ({
       };
 
       const amountInAtomics = Decimal.fromUserInput(
-        "0",
+        '0',
         Number(state.chain.displayDenomExponent),
       ).atomics;
 
       const test = toUtf8(executeMessage);
       const msg: TxMsgExecuteContract = {
-        typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
+        typeUrl: '/cosmwasm.wasm.v1.MsgExecuteContract',
         value: {
           contract: contractAddress,
-          sender: address,
+          funds: [{ amount: '10000', denom: 'usei' }],
           msg: test,
-          funds: [{ amount: "10000", denom: "usei" }],
+          sender: address,
         },
       };
 
@@ -90,8 +89,14 @@ const MsgExecuteContractForm = ({
   ]);
 
   return (
-    <StackableContainer lessPadding lessMargin>
-      <button className="remove" onClick={() => deleteMsg()}>
+    <StackableContainer
+      lessPadding
+      lessMargin
+    >
+      <button
+        className="remove"
+        onClick={() => deleteMsg()}
+      >
         ✕
       </button>
       <h2>MsgExecuteContract</h2>

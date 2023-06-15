@@ -1,7 +1,7 @@
-import { useAppContext } from "../../../context/AppContext";
-import { printableCoins } from "../../../lib/displayHelpers";
-import { TxMsgSend } from "../../../types/txMsg";
-import HashView from "../HashView";
+import { useAppContext } from '../../../context/AppContext';
+import { printableCoins } from '../../../lib/displayHelpers';
+import { TxMsgSend } from '../../../types/txMsg';
+import HashView from '../HashView';
 
 interface TxMsgSendDetailsProps {
   readonly msg: TxMsgSend;
@@ -16,10 +16,12 @@ const TxMsgSendDetails = ({ msg }: TxMsgSendDetailsProps) => {
         <h3>MsgSend</h3>
       </li>
       <li>
+        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
         <label>Amount:</label>
         <div>{printableCoins(msg.value.amount, state.chain)}</div>
       </li>
       <li>
+        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
         <label>To:</label>
         <div title={msg.value.toAddress}>
           <HashView hash={msg.value.toAddress} />

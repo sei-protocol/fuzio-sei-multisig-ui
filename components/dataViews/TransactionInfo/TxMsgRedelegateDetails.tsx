@@ -1,7 +1,7 @@
-import { useAppContext } from "../../../context/AppContext";
-import { printableCoin } from "../../../lib/displayHelpers";
-import { TxMsgRedelegate } from "../../../types/txMsg";
-import HashView from "../HashView";
+import { useAppContext } from '../../../context/AppContext';
+import { printableCoin } from '../../../lib/displayHelpers';
+import { TxMsgRedelegate } from '../../../types/txMsg';
+import HashView from '../HashView';
 
 interface TxMsgRedelegateDetailsProps {
   readonly msg: TxMsgRedelegate;
@@ -16,16 +16,19 @@ const TxMsgRedelegateDetails = ({ msg }: TxMsgRedelegateDetailsProps) => {
         <h3>MsgBeginRedelegate</h3>
       </li>
       <li>
+        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
         <label>Amount:</label>
         <div>{printableCoin(msg.value.amount, state.chain)}</div>
       </li>
       <li>
+        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
         <label>Src Validator Address:</label>
         <div title={msg.value.validatorSrcAddress}>
           <HashView hash={msg.value.validatorSrcAddress} />
         </div>
       </li>
       <li>
+        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
         <label>Dst Validator Address:</label>
         <div title={msg.value.validatorDstAddress}>
           <HashView hash={msg.value.validatorDstAddress} />

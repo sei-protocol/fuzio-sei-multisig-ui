@@ -1,5 +1,5 @@
-import { TxMsgClaimRewards } from "../../../types/txMsg";
-import HashView from "../HashView";
+import { TxMsgClaimRewards } from '../../../types/txMsg';
+import HashView from '../HashView';
 
 interface TxMsgClaimRewardsDetailsProps {
   readonly msg: TxMsgClaimRewards;
@@ -11,6 +11,7 @@ const TxMsgClaimRewardsDetails = ({ msg }: TxMsgClaimRewardsDetailsProps) => (
       <h3>MsgWithdrawDelegatorReward</h3>
     </li>
     <li>
+      {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
       <label>Validator Address:</label>
       <div title={msg.value.validatorAddress}>
         <HashView hash={msg.value.validatorAddress} />

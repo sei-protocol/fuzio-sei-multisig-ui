@@ -9,21 +9,24 @@ interface Props {
 }
 
 const StackableContainer = (props: Props) => (
-  <div className={`container ${props.base ? "base" : ""}`} {...props.divProps}>
+  <div
+    className={`container ${props.base ? 'base' : ''}`}
+    {...props.divProps}
+  >
     {props.children}
 
     <style jsx>{`
       .container {
         background: rgba(255, 255, 255, 0.05);
-        padding: ${props.lessPadding ? "15px" : "30px"};
-        margin-top: ${props.lessMargin || props.base ? "25px" : "50px"};
-        border-radius: ${props.lessRadius ? "10px" : "20px"};
+        padding: ${props.lessPadding ? '15px' : '30px'};
+        margin-top: ${props.lessMargin || props.base ? '25px' : '50px'};
+        border-radius: ${props.lessRadius ? '10px' : '20px'};
 
         display: flex;
         flex-direction: column;
         justify-content: space-between;
         position: relative;
-        height: ${props.fullHeight ? "100%" : "auto"};
+        height: ${props.fullHeight ? '100%' : 'auto'};
       }
 
       .container:first-child {

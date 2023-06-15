@@ -1,15 +1,15 @@
-import { Decimal } from "@cosmjs/math";
-import { assert } from "@cosmjs/utils";
-import { useEffect, useState } from "react";
-import { MsgGetter } from "..";
-import { useAppContext } from "../../../../context/AppContext";
-import { exampleAddress } from "../../../../lib/displayHelpers";
+import { Decimal } from '@cosmjs/math';
+import { assert } from '@cosmjs/utils';
+import { useEffect, useState } from 'react';
+import { MsgGetter } from '..';
+import { useAppContext } from '../../../../context/AppContext';
+import { exampleAddress } from '../../../../lib/displayHelpers';
 import {
   isTxMsgExecuteContract,
   isTxMsgInstantiateContract,
   isTxMsgMigrateContract,
   isTxMsgUpdateAdmin,
-} from "../../../../lib/txMsgHelpers";
+} from '../../../../lib/txMsgHelpers';
 import {
   TxMsg,
   TxMsgDelegate,
@@ -17,12 +17,12 @@ import {
   TxMsgInstantiateContract,
   TxMsgMigrateContract,
   TxMsgUpdateAdmin,
-} from "../../../../types/txMsg";
-import Input from "../../../inputs/Input";
-import StackableContainer from "../../../layout/StackableContainer";
-import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
-import { fromUtf8, toUtf8 } from "@cosmjs/encoding";
-import Long from "long";
+} from '../../../../types/txMsg';
+import Input from '../../../inputs/Input';
+import StackableContainer from '../../../layout/StackableContainer';
+import { MsgExecuteContract } from 'cosmjs-types/cosmwasm/wasm/v1/tx';
+import { fromUtf8, toUtf8 } from '@cosmjs/encoding';
+import Long from 'long';
 
 interface MsgUpdateAdminFormProps {
   readonly address: string;
@@ -30,25 +30,29 @@ interface MsgUpdateAdminFormProps {
   readonly deleteMsg: () => void;
 }
 
-const MsgUpdateAdminForm = ({ address, setMsgGetter, deleteMsg }: MsgUpdateAdminFormProps) => {
+const MsgUpdateAdminForm = ({
+  address,
+  setMsgGetter,
+  deleteMsg,
+}: MsgUpdateAdminFormProps) => {
   const { state } = useAppContext();
-  assert(state.chain.addressPrefix, "addressPrefix missing");
+  assert(state.chain.addressPrefix, 'addressPrefix missing');
 
-  const [contractAddress, setContractAddress] = useState("");
-  const [newAdmin, setNewAdmin] = useState("");
+  const [contractAddress, setContractAddress] = useState('');
+  const [newAdmin, setNewAdmin] = useState('');
 
-  const [validatorAddressError, setValidatorAddressError] = useState("");
-  const [amountError, setAmountError] = useState("");
+  const [validatorAddressError, setValidatorAddressError] = useState('');
+  const [amountError, setAmountError] = useState('');
 
   useEffect(() => {
     try {
-      assert(state.chain.denom, "denom missing");
+      assert(state.chain.denom, 'denom missing');
 
-      setValidatorAddressError("");
-      setAmountError("");
+      setValidatorAddressError('');
+      setAmountError('');
 
       const isMsgValid = (msg: TxMsg): msg is TxMsgUpdateAdmin => {
-        assert(state.chain.addressPrefix, "addressPrefix missing");
+        assert(state.chain.addressPrefix, 'addressPrefix missing');
 
         // const addressErrorMsg = checkAddress(validatorAddress, state.chain.addressPrefix);
         // if (addressErrorMsg) {
@@ -67,12 +71,12 @@ const MsgUpdateAdminForm = ({ address, setMsgGetter, deleteMsg }: MsgUpdateAdmin
       };
 
       const msg: TxMsgUpdateAdmin = {
-        typeUrl: "/cosmwasm.wasm.v1.MsgUpdateAdmin",
+        typeUrl: '/cosmwasm.wasm.v1.MsgUpdateAdmin',
         value: {
-          sender: address,
           contract: contractAddress,
+          funds: [{ amount: '1000', denom: 'usei' }],
           newAdmin: newAdmin,
-          funds: [{ amount: "1000", denom: "usei" }],
+          sender: address,
         },
       };
 
@@ -92,8 +96,14 @@ const MsgUpdateAdminForm = ({ address, setMsgGetter, deleteMsg }: MsgUpdateAdmin
   ]);
 
   return (
-    <StackableContainer lessPadding lessMargin>
-      <button className="remove" onClick={() => deleteMsg()}>
+    <StackableContainer
+      lessPadding
+      lessMargin
+    >
+      <button
+        className="remove"
+        onClick={() => deleteMsg()}
+      >
         ✕
       </button>
       <h2>MsgUpdateAdminContract</h2>

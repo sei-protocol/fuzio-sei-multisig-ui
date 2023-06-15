@@ -1,12 +1,12 @@
-import { assert } from "@cosmjs/utils";
-import { useEffect, useState } from "react";
-import { MsgGetter } from "..";
-import { useAppContext } from "../../../../context/AppContext";
-import { checkAddress, exampleAddress } from "../../../../lib/displayHelpers";
-import { isTxMsgClaimRewards } from "../../../../lib/txMsgHelpers";
-import { TxMsg, TxMsgClaimRewards } from "../../../../types/txMsg";
-import Input from "../../../inputs/Input";
-import StackableContainer from "../../../layout/StackableContainer";
+import { assert } from '@cosmjs/utils';
+import { useEffect, useState } from 'react';
+import { MsgGetter } from '..';
+import { useAppContext } from '../../../../context/AppContext';
+import { checkAddress, exampleAddress } from '../../../../lib/displayHelpers';
+import { isTxMsgClaimRewards } from '../../../../lib/txMsgHelpers';
+import { TxMsg, TxMsgClaimRewards } from '../../../../types/txMsg';
+import Input from '../../../inputs/Input';
+import StackableContainer from '../../../layout/StackableContainer';
 
 interface MsgClaimRewardsFormProps {
   readonly delegatorAddress: string;
@@ -20,19 +20,22 @@ const MsgClaimRewardsForm = ({
   deleteMsg,
 }: MsgClaimRewardsFormProps) => {
   const { state } = useAppContext();
-  assert(state.chain.addressPrefix, "addressPrefix missing");
+  assert(state.chain.addressPrefix, 'addressPrefix missing');
 
-  const [validatorAddress, setValidatorAddress] = useState("");
-  const [validatorAddressError, setValidatorAddressError] = useState("");
+  const [validatorAddress, setValidatorAddress] = useState('');
+  const [validatorAddressError, setValidatorAddressError] = useState('');
 
   useEffect(() => {
     try {
-      setValidatorAddressError("");
+      setValidatorAddressError('');
 
       const isMsgValid = (msg: TxMsg): msg is TxMsgClaimRewards => {
-        assert(state.chain.addressPrefix, "addressPrefix missing");
+        assert(state.chain.addressPrefix, 'addressPrefix missing');
 
-        const addressErrorMsg = checkAddress(validatorAddress, state.chain.addressPrefix);
+        const addressErrorMsg = checkAddress(
+          validatorAddress,
+          state.chain.addressPrefix,
+        );
         if (addressErrorMsg) {
           setValidatorAddressError(
             `Invalid address for network ${state.chain.chainId}: ${addressErrorMsg}`,
@@ -44,7 +47,7 @@ const MsgClaimRewardsForm = ({
       };
 
       const msg: TxMsgClaimRewards = {
-        typeUrl: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
+        typeUrl: '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
         value: { delegatorAddress, validatorAddress },
       };
 
@@ -59,8 +62,14 @@ const MsgClaimRewardsForm = ({
   ]);
 
   return (
-    <StackableContainer lessPadding lessMargin>
-      <button className="remove" onClick={() => deleteMsg()}>
+    <StackableContainer
+      lessPadding
+      lessMargin
+    >
+      <button
+        className="remove"
+        onClick={() => deleteMsg()}
+      >
         ✕
       </button>
       <h2>MsgWithdrawDelegatorReward</h2>

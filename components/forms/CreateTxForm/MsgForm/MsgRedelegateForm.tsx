@@ -1,13 +1,13 @@
-import { Decimal } from "@cosmjs/math";
-import { assert } from "@cosmjs/utils";
-import { useEffect, useState } from "react";
-import { MsgGetter } from "..";
-import { useAppContext } from "../../../../context/AppContext";
-import { checkAddress, exampleAddress } from "../../../../lib/displayHelpers";
-import { isTxMsgRedelegate } from "../../../../lib/txMsgHelpers";
-import { TxMsg, TxMsgRedelegate } from "../../../../types/txMsg";
-import Input from "../../../inputs/Input";
-import StackableContainer from "../../../layout/StackableContainer";
+import { Decimal } from '@cosmjs/math';
+import { assert } from '@cosmjs/utils';
+import { useEffect, useState } from 'react';
+import { MsgGetter } from '..';
+import { useAppContext } from '../../../../context/AppContext';
+import { checkAddress, exampleAddress } from '../../../../lib/displayHelpers';
+import { isTxMsgRedelegate } from '../../../../lib/txMsgHelpers';
+import { TxMsg, TxMsgRedelegate } from '../../../../types/txMsg';
+import Input from '../../../inputs/Input';
+import StackableContainer from '../../../layout/StackableContainer';
 
 interface MsgRedelegateFormProps {
   readonly delegatorAddress: string;
@@ -21,28 +21,31 @@ const MsgRedelegateForm = ({
   deleteMsg,
 }: MsgRedelegateFormProps) => {
   const { state } = useAppContext();
-  assert(state.chain.addressPrefix, "addressPrefix missing");
+  assert(state.chain.addressPrefix, 'addressPrefix missing');
 
-  const [validatorSrcAddress, setValidatorSrcAddress] = useState("");
-  const [validatorDstAddress, setValidatorDstAddress] = useState("");
-  const [amount, setAmount] = useState("0");
+  const [validatorSrcAddress, setValidatorSrcAddress] = useState('');
+  const [validatorDstAddress, setValidatorDstAddress] = useState('');
+  const [amount, setAmount] = useState('0');
 
-  const [validatorSrcAddressError, setValidatorSrcAddressError] = useState("");
-  const [validatorDstAddressError, setValidatorDstAddressError] = useState("");
-  const [amountError, setAmountError] = useState("");
+  const [validatorSrcAddressError, setValidatorSrcAddressError] = useState('');
+  const [validatorDstAddressError, setValidatorDstAddressError] = useState('');
+  const [amountError, setAmountError] = useState('');
 
   useEffect(() => {
     try {
-      assert(state.chain.denom, "denom missing");
+      assert(state.chain.denom, 'denom missing');
 
-      setValidatorSrcAddressError("");
-      setValidatorDstAddressError("");
-      setAmountError("");
+      setValidatorSrcAddressError('');
+      setValidatorDstAddressError('');
+      setAmountError('');
 
       const isMsgValid = (msg: TxMsg): msg is TxMsgRedelegate => {
-        assert(state.chain.addressPrefix, "addressPrefix missing");
+        assert(state.chain.addressPrefix, 'addressPrefix missing');
 
-        const srcAddressErrorMsg = checkAddress(validatorSrcAddress, state.chain.addressPrefix);
+        const srcAddressErrorMsg = checkAddress(
+          validatorSrcAddress,
+          state.chain.addressPrefix,
+        );
         if (srcAddressErrorMsg) {
           setValidatorSrcAddressError(
             `Invalid address for network ${state.chain.chainId}: ${srcAddressErrorMsg}`,
@@ -50,7 +53,10 @@ const MsgRedelegateForm = ({
           return false;
         }
 
-        const dstAddressErrorMsg = checkAddress(validatorDstAddress, state.chain.addressPrefix);
+        const dstAddressErrorMsg = checkAddress(
+          validatorDstAddress,
+          state.chain.addressPrefix,
+        );
         if (dstAddressErrorMsg) {
           setValidatorDstAddressError(
             `Invalid address for network ${state.chain.chainId}: ${dstAddressErrorMsg}`,
@@ -59,7 +65,7 @@ const MsgRedelegateForm = ({
         }
 
         if (!amount || Number(amount) <= 0) {
-          setAmountError("Amount must be greater than 0");
+          setAmountError('Amount must be greater than 0');
           return false;
         }
 
@@ -67,17 +73,17 @@ const MsgRedelegateForm = ({
       };
 
       const amountInAtomics = Decimal.fromUserInput(
-        amount || "0",
+        amount || '0',
         Number(state.chain.displayDenomExponent),
       ).atomics;
 
       const msg: TxMsgRedelegate = {
-        typeUrl: "/cosmos.staking.v1beta1.MsgBeginRedelegate",
+        typeUrl: '/cosmos.staking.v1beta1.MsgBeginRedelegate',
         value: {
-          delegatorAddress,
-          validatorSrcAddress,
-          validatorDstAddress,
           amount: { amount: amountInAtomics, denom: state.chain.denom },
+          delegatorAddress,
+          validatorDstAddress,
+          validatorSrcAddress,
         },
       };
 
@@ -96,8 +102,14 @@ const MsgRedelegateForm = ({
   ]);
 
   return (
-    <StackableContainer lessPadding lessMargin>
-      <button className="remove" onClick={() => deleteMsg()}>
+    <StackableContainer
+      lessPadding
+      lessMargin
+    >
+      <button
+        className="remove"
+        onClick={() => deleteMsg()}
+      >
         ✕
       </button>
       <h2>MsgBeginRedelegate</h2>

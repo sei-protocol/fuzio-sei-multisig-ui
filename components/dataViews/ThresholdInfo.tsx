@@ -1,8 +1,8 @@
-import { MultisigThresholdPubkey } from "@cosmjs/amino";
-import { useEffect, useState } from "react";
-import { DbSignature } from "../../types";
-import StackableContainer from "../layout/StackableContainer";
-import CopyAndPaste from "./CopyAndPaste";
+import { MultisigThresholdPubkey } from '@cosmjs/amino';
+import { useEffect, useState } from 'react';
+import { DbSignature } from '../../types';
+import StackableContainer from '../layout/StackableContainer';
+import CopyAndPaste from './CopyAndPaste';
 
 interface Props {
   signatures: DbSignature[];
@@ -10,37 +10,51 @@ interface Props {
 }
 
 const ThresholdInfo = ({ signatures, pubkey }: Props) => {
-  const [urlToCopy, setUrlToCopy] = useState("");
+  const [urlToCopy, setUrlToCopy] = useState('');
 
   useEffect(() => {
-    const urlWithoutQuery = window.location.href.split("?")[0];
+    const urlWithoutQuery = window.location.href.split('?')[0];
     setUrlToCopy(urlWithoutQuery);
   }, []);
 
-  const remainingSignatures = Number(pubkey.value.threshold) - signatures.length;
+  const remainingSignatures =
+    Number(pubkey.value.threshold) - signatures.length;
   if (!remainingSignatures) return null;
 
   return (
     <>
-      <StackableContainer lessPadding lessMargin lessRadius>
+      <StackableContainer
+        lessPadding
+        lessMargin
+        lessRadius
+      >
         <div className="threshold">
           <div className="current">{signatures.length}</div>
           <div className="label divider">of</div>
           <div className="required">{pubkey.value.threshold}</div>
           <div className="label">signatures complete</div>
         </div>
-        <StackableContainer lessPadding lessMargin lessRadius>
+        <StackableContainer
+          lessPadding
+          lessMargin
+          lessRadius
+        >
           <p>
-            {remainingSignatures} remaining {remainingSignatures > 1 ? "signatures" : "signature"}{" "}
-            before this transaction can be broadcast
+            {remainingSignatures} remaining{' '}
+            {remainingSignatures > 1 ? 'signatures' : 'signature'} before this
+            transaction can be broadcast
           </p>
         </StackableContainer>
-        <StackableContainer lessPadding lessMargin lessRadius>
-          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+        <StackableContainer
+          lessPadding
+          lessMargin
+          lessRadius
+        >
+          <div style={{ alignItems: 'center', display: 'flex', gap: '8px' }}>
             <CopyAndPaste copyText={urlToCopy} />
             <p style={{ margin: 0 }}>
-              Copy the current URL and share it with the other members in the multisig so they can
-              sign it
+              Copy the current URL and share it with the other members in the
+              multisig so they can sign it
             </p>
           </div>
         </StackableContainer>

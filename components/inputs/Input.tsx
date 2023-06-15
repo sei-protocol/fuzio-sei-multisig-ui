@@ -1,12 +1,16 @@
-import React from "react";
+import React from 'react';
 
 interface Props {
   label?: string;
   type?: string;
   name?: string;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  onChange?: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => void;
   value: number | string | undefined;
-  onBlur?: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  onBlur?: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => void;
   disabled?: boolean;
   error?: string;
   placeholder?: string;
@@ -15,24 +19,24 @@ interface Props {
 
 const Input = (props: Props) => (
   <div className="text-input">
-    <label>{props.label || ""}</label>
-    {props.type === "textarea" ? (
+    <label>{props.label || ''}</label>
+    {props.type === 'textarea' ? (
       <textarea
-        name={props.name || "text-input"}
+        name={props.name || 'text-input'}
         onChange={props.onChange}
         value={props.value}
-        placeholder={props.placeholder || ""}
+        placeholder={props.placeholder || ''}
         autoComplete="off"
         onBlur={props.onBlur}
         disabled={props.disabled}
       />
     ) : (
       <input
-        type={props.type || "text"}
-        name={props.name || "text-input"}
+        type={props.type || 'text'}
+        name={props.name || 'text-input'}
         onChange={props.onChange}
         value={props.value}
-        placeholder={props.placeholder || ""}
+        placeholder={props.placeholder || ''}
         autoComplete="off"
         onBlur={props.onBlur}
         disabled={props.disabled}
@@ -44,7 +48,7 @@ const Input = (props: Props) => (
       .text-input {
         display: flex;
         flex-direction: column;
-        width: ${props.width ? props.width : "auto"};
+        width: ${props.width ? props.width : 'auto'};
       }
 
       label {

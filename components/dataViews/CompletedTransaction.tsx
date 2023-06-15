@@ -1,8 +1,8 @@
-import { useAppContext } from "../../context/AppContext";
-import { explorerLinkTx } from "../../lib/displayHelpers";
-import Button from "../inputs/Button";
-import StackableContainer from "../layout/StackableContainer";
-import HashView from "./HashView";
+import { useAppContext } from '../../context/AppContext';
+import { explorerLinkTx } from '../../lib/displayHelpers';
+import Button from '../inputs/Button';
+import StackableContainer from '../layout/StackableContainer';
+import HashView from './HashView';
 
 interface Props {
   transactionHash: string;
@@ -10,23 +10,48 @@ interface Props {
 
 const CompletedTransaction = ({ transactionHash }: Props) => {
   const { state } = useAppContext();
-  const baseURL = state.chain.explorerLink ? state.chain.explorerLink : "";
+  const baseURL = state.chain.explorerLink ? state.chain.explorerLink : '';
   const explorerLink = explorerLinkTx(baseURL, transactionHash);
   return (
-    <StackableContainer lessPadding lessMargin>
-      <StackableContainer lessPadding lessMargin lessRadius>
+    <StackableContainer
+      lessPadding
+      lessMargin
+    >
+      <StackableContainer
+        lessPadding
+        lessMargin
+        lessRadius
+      >
         <div className="confirmation">
-          <svg viewBox="0 0 77 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M5 30L26 51L72 5" stroke="white" strokeWidth="12" />
+          <svg
+            viewBox="0 0 77 60"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M5 30L26 51L72 5"
+              stroke="white"
+              strokeWidth="12"
+            />
           </svg>
           <p>This transaction has been broadcast</p>
         </div>
       </StackableContainer>
-      <StackableContainer lessPadding lessMargin lessRadius>
+      <StackableContainer
+        lessPadding
+        lessMargin
+        lessRadius
+      >
+        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
         <label>Transaction Hash</label>
         <HashView hash={transactionHash} />
       </StackableContainer>
-      {explorerLink && <Button href={explorerLink} label="View in Explorer"></Button>}
+      {explorerLink && (
+        <Button
+          href={explorerLink}
+          label="View in Explorer"
+        ></Button>
+      )}
       <style jsx>{`
         .confirmation {
           display: flex;

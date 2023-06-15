@@ -1,26 +1,14 @@
-import { Decimal } from "@cosmjs/math";
-import { assert } from "@cosmjs/utils";
-import { useEffect, useState } from "react";
-import { MsgGetter } from "..";
-import { useAppContext } from "../../../../context/AppContext";
-import { exampleAddress } from "../../../../lib/displayHelpers";
-import {
-  isTxMsgExecuteContract,
-  isTxMsgInstantiateContract,
-  isTxMsgMigrateContract,
-} from "../../../../lib/txMsgHelpers";
-import {
-  TxMsg,
-  TxMsgDelegate,
-  TxMsgExecuteContract,
-  TxMsgInstantiateContract,
-  TxMsgMigrateContract,
-} from "../../../../types/txMsg";
-import Input from "../../../inputs/Input";
-import StackableContainer from "../../../layout/StackableContainer";
-import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
-import { fromUtf8, toUtf8 } from "@cosmjs/encoding";
-import Long from "long";
+import { assert } from '@cosmjs/utils';
+import { useEffect, useState } from 'react';
+import { MsgGetter } from '..';
+import { useAppContext } from '../../../../context/AppContext';
+import { exampleAddress } from '../../../../lib/displayHelpers';
+import { isTxMsgMigrateContract } from '../../../../lib/txMsgHelpers';
+import { TxMsg, TxMsgMigrateContract } from '../../../../types/txMsg';
+import Input from '../../../inputs/Input';
+import StackableContainer from '../../../layout/StackableContainer';
+import { toUtf8 } from '@cosmjs/encoding';
+import Long from 'long';
 
 interface MsgMigrateContractFormProps {
   readonly address: string;
@@ -34,24 +22,24 @@ const MsgMigrateContractForm = ({
   deleteMsg,
 }: MsgMigrateContractFormProps) => {
   const { state } = useAppContext();
-  assert(state.chain.addressPrefix, "addressPrefix missing");
+  assert(state.chain.addressPrefix, 'addressPrefix missing');
 
-  const [contractAddress, setContractAddress] = useState("");
+  const [contractAddress, setContractAddress] = useState('');
   const [migrateMessage, setMigrateMessage] = useState(`{}`);
-  const [codeId, setCodeId] = useState(Long.fromString("0"));
+  const [codeId, setCodeId] = useState(Long.fromString('0'));
 
-  const [validatorAddressError, setValidatorAddressError] = useState("");
-  const [amountError, setAmountError] = useState("");
+  const [validatorAddressError, setValidatorAddressError] = useState('');
+  const [amountError, setAmountError] = useState('');
 
   useEffect(() => {
     try {
-      assert(state.chain.denom, "denom missing");
+      assert(state.chain.denom, 'denom missing');
 
-      setValidatorAddressError("");
-      setAmountError("");
+      setValidatorAddressError('');
+      setAmountError('');
 
       const isMsgValid = (msg: TxMsg): msg is TxMsgMigrateContract => {
-        assert(state.chain.addressPrefix, "addressPrefix missing");
+        assert(state.chain.addressPrefix, 'addressPrefix missing');
 
         // const addressErrorMsg = checkAddress(validatorAddress, state.chain.addressPrefix);
         // if (addressErrorMsg) {
@@ -71,13 +59,13 @@ const MsgMigrateContractForm = ({
 
       const test = toUtf8(migrateMessage);
       const msg: TxMsgMigrateContract = {
-        typeUrl: "/cosmwasm.wasm.v1.MsgMigrateContract",
+        typeUrl: '/cosmwasm.wasm.v1.MsgMigrateContract',
         value: {
-          sender: address,
-          contract: contractAddress,
-          msg: test,
           codeId: codeId.low,
-          funds: [{ amount: "1000", denom: "usei" }],
+          contract: contractAddress,
+          funds: [{ amount: '1000', denom: 'usei' }],
+          msg: test,
+          sender: address,
         },
       };
 
@@ -98,8 +86,14 @@ const MsgMigrateContractForm = ({
   ]);
 
   return (
-    <StackableContainer lessPadding lessMargin>
-      <button className="remove" onClick={() => deleteMsg()}>
+    <StackableContainer
+      lessPadding
+      lessMargin
+    >
+      <button
+        className="remove"
+        onClick={() => deleteMsg()}
+      >
         ✕
       </button>
       <h2>MsgMigrateContract</h2>

@@ -1,17 +1,17 @@
-import { StargateClient } from "@cosmjs/stargate";
-import { assert } from "@cosmjs/utils";
-import { NextRouter, withRouter } from "next/router";
-import { useState } from "react";
-import { useAppContext } from "../../context/AppContext";
-import { exampleAddress, examplePubkey } from "../../lib/displayHelpers";
-import { createMultisigFromCompressedSecp256k1Pubkeys } from "../../lib/multisigHelpers";
-import Button from "../inputs/Button";
-import Input from "../inputs/Input";
-import ThresholdInput from "../inputs/ThresholdInput";
-import StackableContainer from "../layout/StackableContainer";
+import { StargateClient } from '@cosmjs/stargate';
+import { assert } from '@cosmjs/utils';
+import { NextRouter, withRouter } from 'next/router';
+import { useState } from 'react';
+import { useAppContext } from '../../context/AppContext';
+import { exampleAddress, examplePubkey } from '../../lib/displayHelpers';
+import { createMultisigFromCompressedSecp256k1Pubkeys } from '../../lib/multisigHelpers';
+import Button from '../inputs/Button';
+import Input from '../inputs/Input';
+import ThresholdInput from '../inputs/ThresholdInput';
+import StackableContainer from '../layout/StackableContainer';
 
 const emptyPubKeyGroup = () => {
-  return { address: "", compressedPubkey: "", keyError: "", isPubkey: false };
+  return { address: '', compressedPubkey: '', isPubkey: false, keyError: '' };
 };
 
 interface Props {
@@ -20,7 +20,10 @@ interface Props {
 
 const MultiSigForm = (props: Props) => {
   const { state } = useAppContext();
-  const [pubkeys, setPubkeys] = useState([emptyPubKeyGroup(), emptyPubKeyGroup()]);
+  const [pubkeys, setPubkeys] = useState([
+    emptyPubKeyGroup(),
+    emptyPubKeyGroup(),
+  ]);
   const [threshold, setThreshold] = useState(2);
   const [processing, setProcessing] = useState(false);
 
@@ -32,11 +35,14 @@ const MultiSigForm = (props: Props) => {
     setThreshold(newThreshold);
   };
 
-  const handleKeyGroupChange = (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleKeyGroupChange = (
+    index: number,
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     const tempPubkeys = [...pubkeys];
-    if (e.target.name === "compressedPubkey") {
+    if (e.target.name === 'compressedPubkey') {
       tempPubkeys[index].compressedPubkey = e.target.value;
-    } else if (e.target.name === "address") {
+    } else if (e.target.name === 'address') {
       tempPubkeys[index].address = e.target.value;
     }
     setPubkeys(tempPubkeys);
@@ -51,25 +57,29 @@ const MultiSigForm = (props: Props) => {
     const tempPubkeys = [...pubkeys];
     const oldLength = tempPubkeys.length;
     tempPubkeys.splice(index, 1);
-    const newThreshold = threshold > tempPubkeys.length ? tempPubkeys.length : oldLength;
+    const newThreshold =
+      threshold > tempPubkeys.length ? tempPubkeys.length : oldLength;
     setPubkeys(tempPubkeys);
     setThreshold(newThreshold);
   };
 
   const getPubkeyFromNode = async (address: string) => {
-    assert(state.chain.nodeAddress, "nodeAddress missing");
+    assert(state.chain.nodeAddress, 'nodeAddress missing');
     const client = await StargateClient.connect(state.chain.nodeAddress);
     const accountOnChain = await client.getAccount(address);
     console.log(accountOnChain);
     if (!accountOnChain || !accountOnChain.pubkey) {
       throw new Error(
-        "Account has no pubkey on chain, this address will need to send a transaction to appear on chain.",
+        'Account has no pubkey on chain, this address will need to send a transaction to appear on chain.',
       );
     }
     return accountOnChain.pubkey.value;
   };
 
-  const handleKeyBlur = async (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleKeyBlur = async (
+    index: number,
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     try {
       const tempPubkeys = [...pubkeys];
       let pubkey;
@@ -78,7 +88,7 @@ const MultiSigForm = (props: Props) => {
       if (tempPubkeys[index].isPubkey) {
         pubkey = e.target.value;
         if (pubkey.length !== 44) {
-          throw new Error("Invalid Secp256k1 pubkey");
+          throw new Error('Invalid Secp256k1 pubkey');
         }
       } else {
         // use address to fetch pubkey
@@ -89,9 +99,8 @@ const MultiSigForm = (props: Props) => {
       }
 
       tempPubkeys[index].compressedPubkey = pubkey;
-      tempPubkeys[index].keyError = "";
+      tempPubkeys[index].keyError = '';
       setPubkeys(tempPubkeys);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.log(error);
       const tempPubkeys = [...pubkeys];
@@ -105,8 +114,8 @@ const MultiSigForm = (props: Props) => {
     const compressedPubkeys = pubkeys.map((item) => item.compressedPubkey);
     let multisigAddress;
     try {
-      assert(state.chain.addressPrefix, "addressPrefix missing");
-      assert(state.chain.chainId, "chainId missing");
+      assert(state.chain.addressPrefix, 'addressPrefix missing');
+      assert(state.chain.chainId, 'chainId missing');
       multisigAddress = await createMultisigFromCompressedSecp256k1Pubkeys(
         compressedPubkeys,
         threshold,
@@ -115,7 +124,7 @@ const MultiSigForm = (props: Props) => {
       );
       props.router.push(`/multi/${multisigAddress}`);
     } catch (error) {
-      console.log("Failed to creat multisig: ", error);
+      console.log('Failed to creat multisig: ', error);
     }
   };
 
@@ -132,9 +141,13 @@ const MultiSigForm = (props: Props) => {
           <p>Add the addresses that will make up this multisig.</p>
         </StackableContainer>
         {pubkeys.map((pubkeyGroup, index) => {
-          assert(state.chain.addressPrefix, "addressPrefix missing");
+          assert(state.chain.addressPrefix, 'addressPrefix missing');
           return (
-            <StackableContainer lessPadding lessMargin key={index}>
+            <StackableContainer
+              lessPadding
+              lessMargin
+              key={index}
+            >
               <div className="key-row">
                 {pubkeys.length > 2 && (
                   <button
@@ -148,14 +161,24 @@ const MultiSigForm = (props: Props) => {
                 )}
                 <div className="key-inputs">
                   <Input
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    onChange={(
+                      e: React.ChangeEvent<
+                        HTMLInputElement | HTMLTextAreaElement
+                      >,
+                    ) => {
                       handleKeyGroupChange(index, e);
                     }}
                     value={
-                      pubkeyGroup.isPubkey ? pubkeyGroup.compressedPubkey : pubkeyGroup.address
+                      pubkeyGroup.isPubkey
+                        ? pubkeyGroup.compressedPubkey
+                        : pubkeyGroup.address
                     }
-                    label={pubkeyGroup.isPubkey ? "Public Key (Secp256k1)" : "Address"}
-                    name={pubkeyGroup.isPubkey ? "compressedPubkey" : "address"}
+                    label={
+                      pubkeyGroup.isPubkey
+                        ? 'Public Key (Secp256k1)'
+                        : 'Address'
+                    }
+                    name={pubkeyGroup.isPubkey ? 'compressedPubkey' : 'address'}
                     width="100%"
                     placeholder={`E.g. ${
                       pubkeyGroup.isPubkey
@@ -163,12 +186,19 @@ const MultiSigForm = (props: Props) => {
                         : exampleAddress(index, state.chain.addressPrefix)
                     }`}
                     error={pubkeyGroup.keyError}
-                    onBlur={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    onBlur={(
+                      e: React.ChangeEvent<
+                        HTMLInputElement | HTMLTextAreaElement
+                      >,
+                    ) => {
                       handleKeyBlur(index, e);
                     }}
                   />
-                  <button className="toggle-type" onClick={() => togglePubkey(index)}>
-                    Use {pubkeyGroup.isPubkey ? "Address" : "Public Key"}
+                  <button
+                    className="toggle-type"
+                    onClick={() => togglePubkey(index)}
+                  >
+                    Use {pubkeyGroup.isPubkey ? 'Address' : 'Public Key'}
                   </button>
                 </div>
               </div>
@@ -176,7 +206,10 @@ const MultiSigForm = (props: Props) => {
           );
         })}
 
-        <Button label="Add another address" onClick={() => handleAddKey()} />
+        <Button
+          label="Add another address"
+          onClick={() => handleAddKey()}
+        />
       </StackableContainer>
       <StackableContainer>
         <StackableContainer lessPadding>
@@ -187,14 +220,23 @@ const MultiSigForm = (props: Props) => {
           />
         </StackableContainer>
 
-        <StackableContainer lessPadding lessMargin>
+        <StackableContainer
+          lessPadding
+          lessMargin
+        >
           <p>
-            This means that each transaction this multisig makes will require {threshold} of the
-            members to sign it for it to be accepted by the validators.
+            This means that each transaction this multisig makes will require{' '}
+            {threshold} of the members to sign it for it to be accepted by the
+            validators.
           </p>
         </StackableContainer>
       </StackableContainer>
-      <Button primary onClick={handleCreate} label="Create Multisig" loading={processing} />
+      <Button
+        primary
+        onClick={handleCreate}
+        label="Create Multisig"
+        loading={processing}
+      />
       <style jsx>{`
         .key-inputs {
           display: flex;

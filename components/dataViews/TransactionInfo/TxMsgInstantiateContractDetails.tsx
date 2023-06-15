@@ -1,16 +1,18 @@
-import { fromUtf8 } from "@cosmjs/encoding";
-import { useAppContext } from "../../../context/AppContext";
-import { printableCoin } from "../../../lib/displayHelpers";
-import { TxMsgInstantiateContract } from "../../../types/txMsg";
-import { useEffect, useState } from "react";
-import { JsonView, darkStyles, defaultStyles } from "react-json-view-lite";
-import "react-json-view-lite/dist/index.css";
+import { fromUtf8 } from '@cosmjs/encoding';
+import { useAppContext } from '../../../context/AppContext';
+import { printableCoin } from '../../../lib/displayHelpers';
+import { TxMsgInstantiateContract } from '../../../types/txMsg';
+import { useEffect, useState } from 'react';
+import { JsonView, darkStyles, defaultStyles } from 'react-json-view-lite';
+import 'react-json-view-lite/dist/index.css';
 
 interface TxMsgInstantiateContractDetailsProps {
   readonly msg: TxMsgInstantiateContract;
 }
 
-const TxMsgInstantiateContractDetails = ({ msg }: TxMsgInstantiateContractDetailsProps) => {
+const TxMsgInstantiateContractDetails = ({
+  msg,
+}: TxMsgInstantiateContractDetailsProps) => {
   const { state } = useAppContext();
   const [uint8, setUint8] = useState<Array<number>>([]);
   const [uint8Array, setUint8Array] = useState<Uint8Array>();
@@ -46,32 +48,42 @@ const TxMsgInstantiateContractDetails = ({ msg }: TxMsgInstantiateContractDetail
         <h3>MsgInstantiateContract</h3>
       </li>
       <li>
+        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
         <label>Sender Address:</label>
         <div>{msg.value.sender}</div>
       </li>
       <li>
+        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
         <label>Admin Address:</label>
         <div>{msg.value.admin}</div>
       </li>
       <li>
+        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
         <label>Label:</label>
         <div>{msg.value.label}</div>
       </li>
       <li>
+        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
         <label>Code ID:</label>
         <div>{msg.value.codeId}</div>
       </li>
       {msg.value.funds && (
         <li>
+          {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
           <label>Funds:</label>
           {msg.value.funds.map((fund) => {
-            return <div key={fund.amount + fund.denom}>{printableCoin(fund, state.chain)}</div>;
+            return (
+              <div key={fund.amount + fund.denom}>
+                {printableCoin(fund, state.chain)}
+              </div>
+            );
           })}
         </li>
       )}
 
       {executeMessage && (
         <li>
+          {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
           <label>Instantiate Message:</label>
           <JsonView
             data={executeMessage}

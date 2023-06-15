@@ -1,15 +1,15 @@
 export type MsgType =
-  | "send"
-  | "delegate"
-  | "undelegate"
-  | "redelegate"
-  | "claimRewards"
-  | "setWithdrawAddress"
-  | "executeContract"
-  | "instantiateContract"
-  | "migrateContract"
-  | "updateAdmin"
-  | "clearAdmin";
+  | 'send'
+  | 'delegate'
+  | 'undelegate'
+  | 'redelegate'
+  | 'claimRewards'
+  | 'setWithdrawAddress'
+  | 'executeContract'
+  | 'instantiateContract'
+  | 'migrateContract'
+  | 'updateAdmin'
+  | 'clearAdmin';
 
 export type TxMsg =
   | TxMsgSend
@@ -25,7 +25,7 @@ export type TxMsg =
   | TxMsgMigrateContract;
 
 export interface TxMsgExecuteContract {
-  readonly typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract";
+  readonly typeUrl: '/cosmwasm.wasm.v1.MsgExecuteContract';
   readonly value: {
     readonly contract: string;
     readonly sender: string;
@@ -35,7 +35,7 @@ export interface TxMsgExecuteContract {
 }
 
 export interface TxMsgInstantiateContract {
-  readonly typeUrl: "/cosmwasm.wasm.v1.MsgInstantiateContract";
+  readonly typeUrl: '/cosmwasm.wasm.v1.MsgInstantiateContract';
   readonly value: {
     readonly sender: string;
     readonly codeId: number;
@@ -47,7 +47,7 @@ export interface TxMsgInstantiateContract {
 }
 
 export interface TxMsgUpdateAdmin {
-  readonly typeUrl: "/cosmwasm.wasm.v1.MsgUpdateAdmin";
+  readonly typeUrl: '/cosmwasm.wasm.v1.MsgUpdateAdmin';
   readonly value: {
     sender: string;
     contract: string;
@@ -57,7 +57,7 @@ export interface TxMsgUpdateAdmin {
 }
 
 export interface TxMsgClearAdmin {
-  readonly typeUrl: "/cosmwasm.wasm.v1.MsgClearAdmin";
+  readonly typeUrl: '/cosmwasm.wasm.v1.MsgClearAdmin';
   readonly value: {
     sender: string;
     contract: string;
@@ -66,7 +66,7 @@ export interface TxMsgClearAdmin {
 }
 
 export interface TxMsgMigrateContract {
-  readonly typeUrl: "/cosmwasm.wasm.v1.MsgMigrateContract";
+  readonly typeUrl: '/cosmwasm.wasm.v1.MsgMigrateContract';
   readonly value: {
     sender: string;
     contract: string;
@@ -77,7 +77,7 @@ export interface TxMsgMigrateContract {
 }
 
 export interface TxMsgSend {
-  readonly typeUrl: "/cosmos.bank.v1beta1.MsgSend";
+  readonly typeUrl: '/cosmos.bank.v1beta1.MsgSend';
   readonly value: {
     readonly fromAddress: string;
     readonly toAddress: string;
@@ -86,7 +86,7 @@ export interface TxMsgSend {
 }
 
 export interface TxMsgDelegate {
-  readonly typeUrl: "/cosmos.staking.v1beta1.MsgDelegate";
+  readonly typeUrl: '/cosmos.staking.v1beta1.MsgDelegate';
   readonly value: {
     readonly delegatorAddress: string;
     readonly validatorAddress: string;
@@ -95,7 +95,7 @@ export interface TxMsgDelegate {
 }
 
 export interface TxMsgUndelegate {
-  readonly typeUrl: "/cosmos.staking.v1beta1.MsgUndelegate";
+  readonly typeUrl: '/cosmos.staking.v1beta1.MsgUndelegate';
   readonly value: {
     readonly delegatorAddress: string;
     readonly validatorAddress: string;
@@ -104,7 +104,7 @@ export interface TxMsgUndelegate {
 }
 
 export interface TxMsgRedelegate {
-  readonly typeUrl: "/cosmos.staking.v1beta1.MsgBeginRedelegate";
+  readonly typeUrl: '/cosmos.staking.v1beta1.MsgBeginRedelegate';
   readonly value: {
     readonly delegatorAddress: string;
     readonly validatorSrcAddress: string;
@@ -114,7 +114,7 @@ export interface TxMsgRedelegate {
 }
 
 export interface TxMsgClaimRewards {
-  readonly typeUrl: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward";
+  readonly typeUrl: '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward';
   readonly value: {
     readonly delegatorAddress: string;
     readonly validatorAddress: string;
@@ -122,7 +122,7 @@ export interface TxMsgClaimRewards {
 }
 
 export interface TxMsgSetWithdrawAddress {
-  readonly typeUrl: "/cosmos.distribution.v1beta1.MsgSetWithdrawAddress";
+  readonly typeUrl: '/cosmos.distribution.v1beta1.MsgSetWithdrawAddress';
   readonly value: {
     readonly delegatorAddress: string;
     readonly withdrawAddress: string;

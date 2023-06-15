@@ -1,13 +1,13 @@
-import { Decimal } from "@cosmjs/math";
-import { assert } from "@cosmjs/utils";
-import { useEffect, useState } from "react";
-import { MsgGetter } from "..";
-import { useAppContext } from "../../../../context/AppContext";
-import { checkAddress, exampleAddress } from "../../../../lib/displayHelpers";
-import { isTxMsgSend } from "../../../../lib/txMsgHelpers";
-import { TxMsg, TxMsgSend } from "../../../../types/txMsg";
-import Input from "../../../inputs/Input";
-import StackableContainer from "../../../layout/StackableContainer";
+import { Decimal } from '@cosmjs/math';
+import { assert } from '@cosmjs/utils';
+import { useEffect, useState } from 'react';
+import { MsgGetter } from '..';
+import { useAppContext } from '../../../../context/AppContext';
+import { checkAddress, exampleAddress } from '../../../../lib/displayHelpers';
+import { isTxMsgSend } from '../../../../lib/txMsgHelpers';
+import { TxMsg, TxMsgSend } from '../../../../types/txMsg';
+import Input from '../../../inputs/Input';
+import StackableContainer from '../../../layout/StackableContainer';
 
 interface MsgSendFormProps {
   readonly fromAddress: string;
@@ -15,27 +15,34 @@ interface MsgSendFormProps {
   readonly deleteMsg: () => void;
 }
 
-const MsgSendForm = ({ fromAddress, setMsgGetter, deleteMsg }: MsgSendFormProps) => {
+const MsgSendForm = ({
+  fromAddress,
+  setMsgGetter,
+  deleteMsg,
+}: MsgSendFormProps) => {
   const { state } = useAppContext();
-  assert(state.chain.addressPrefix, "addressPrefix missing");
+  assert(state.chain.addressPrefix, 'addressPrefix missing');
 
-  const [toAddress, setToAddress] = useState("");
-  const [amount, setAmount] = useState("0");
+  const [toAddress, setToAddress] = useState('');
+  const [amount, setAmount] = useState('0');
 
-  const [toAddressError, setToAddressError] = useState("");
-  const [amountError, setAmountError] = useState("");
+  const [toAddressError, setToAddressError] = useState('');
+  const [amountError, setAmountError] = useState('');
 
   useEffect(() => {
     try {
-      assert(state.chain.denom, "denom missing");
+      assert(state.chain.denom, 'denom missing');
 
-      setToAddressError("");
-      setAmountError("");
+      setToAddressError('');
+      setAmountError('');
 
       const isMsgValid = (msg: TxMsg): msg is TxMsgSend => {
-        assert(state.chain.addressPrefix, "addressPrefix missing");
+        assert(state.chain.addressPrefix, 'addressPrefix missing');
 
-        const addressErrorMsg = checkAddress(toAddress, state.chain.addressPrefix);
+        const addressErrorMsg = checkAddress(
+          toAddress,
+          state.chain.addressPrefix,
+        );
         if (addressErrorMsg) {
           setToAddressError(
             `Invalid address for network ${state.chain.chainId}: ${addressErrorMsg}`,
@@ -44,7 +51,7 @@ const MsgSendForm = ({ fromAddress, setMsgGetter, deleteMsg }: MsgSendFormProps)
         }
 
         if (!amount || Number(amount) <= 0) {
-          setAmountError("Amount must be greater than 0");
+          setAmountError('Amount must be greater than 0');
           return false;
         }
 
@@ -52,15 +59,18 @@ const MsgSendForm = ({ fromAddress, setMsgGetter, deleteMsg }: MsgSendFormProps)
       };
 
       const amountInAtomics = amount
-        ? Decimal.fromUserInput(amount, Number(state.chain.displayDenomExponent)).atomics
-        : "0";
+        ? Decimal.fromUserInput(
+            amount,
+            Number(state.chain.displayDenomExponent),
+          ).atomics
+        : '0';
 
       const msg: TxMsgSend = {
-        typeUrl: "/cosmos.bank.v1beta1.MsgSend",
+        typeUrl: '/cosmos.bank.v1beta1.MsgSend',
         value: {
+          amount: [{ amount: amountInAtomics, denom: state.chain.denom }],
           fromAddress,
           toAddress,
-          amount: [{ amount: amountInAtomics, denom: state.chain.denom }],
         },
       };
 
@@ -78,8 +88,14 @@ const MsgSendForm = ({ fromAddress, setMsgGetter, deleteMsg }: MsgSendFormProps)
   ]);
 
   return (
-    <StackableContainer lessPadding lessMargin>
-      <button className="remove" onClick={() => deleteMsg()}>
+    <StackableContainer
+      lessPadding
+      lessMargin
+    >
+      <button
+        className="remove"
+        onClick={() => deleteMsg()}
+      >
         ✕
       </button>
       <h2>MsgSend</h2>

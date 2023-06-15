@@ -3,11 +3,11 @@ import {
   isMultisigThresholdPubkey,
   MultisigThresholdPubkey,
   pubkeyToAddress,
-} from "@cosmjs/amino";
-import { Account, StargateClient } from "@cosmjs/stargate";
-import { assert } from "@cosmjs/utils";
-import axios from "axios";
-import { checkAddress } from "./displayHelpers";
+} from '@cosmjs/amino';
+import { Account, StargateClient } from '@cosmjs/stargate';
+import { assert } from '@cosmjs/utils';
+import axios from 'axios';
+import { checkAddress } from './displayHelpers';
 
 /**
  * Turns array of compressed Secp256k1 pubkeys
@@ -19,6 +19,7 @@ import { checkAddress } from "./displayHelpers";
  * @param {string} chainId chain-id for the multisig (e.g. 'cosmoshub-4')
  * @return {string} The multisig address.
  */
+// eslint-disable-next-line canonical/id-match
 const createMultisigFromCompressedSecp256k1Pubkeys = async (
   compressedPubkeys: string[],
   threshold: number,
@@ -27,7 +28,7 @@ const createMultisigFromCompressedSecp256k1Pubkeys = async (
 ): Promise<string> => {
   const pubkeys = compressedPubkeys.map((compressedPubkey) => {
     return {
-      type: "tendermint/PubKeySecp256k1",
+      type: 'tendermint/PubKeySecp256k1',
       value: compressedPubkey,
     };
   });
@@ -37,8 +38,8 @@ const createMultisigFromCompressedSecp256k1Pubkeys = async (
   // save multisig to fauna
   const multisig = {
     address: multisigAddress,
-    pubkeyJSON: JSON.stringify(multisigPubkey),
     chainId,
+    pubkeyJSON: JSON.stringify(multisigPubkey),
   };
 
   const res = await axios.post(`/api/chain/${chainId}/multisig`, multisig);
@@ -75,15 +76,17 @@ const getMultisigAccount = async (
   if (accountOnChain?.pubkey) {
     assert(
       isMultisigThresholdPubkey(accountOnChain.pubkey),
-      "Pubkey on chain is not of type MultisigThreshold",
+      'Pubkey on chain is not of type MultisigThreshold',
     );
     pubkey = accountOnChain.pubkey;
   } else {
-    console.log("No pubkey on chain for: ", address);
+    console.log('No pubkey on chain for: ', address);
     const res = await axios.get(`/api/chain/${chainId}/multisig/${address}`);
 
     if (res.status !== 200) {
-      throw new Error("Multisig has no pubkey on node, and was not created using this tool.");
+      throw new Error(
+        'Multisig has no pubkey on node, and was not created using this tool.',
+      );
     }
     pubkey = JSON.parse(res.data.pubkeyJSON);
   }

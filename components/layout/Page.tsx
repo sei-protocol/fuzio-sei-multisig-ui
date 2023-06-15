@@ -1,7 +1,7 @@
-import { useRouter } from "next/router";
-import { useState } from "react";
-import Head from "../head";
-import StackableContainer from "./StackableContainer";
+import { useRouter } from 'next/router';
+import { useState } from 'react';
+import Head from '../head';
+import StackableContainer from './StackableContainer';
 
 interface PageProps {
   readonly title?: string;
@@ -24,8 +24,10 @@ const Page = ({ title, goBack, children }: PageProps) => {
 
     if (goBack.needsConfirm && !showConfirm) {
       return {
-        href: "",
-        onClick: (e: React.MouseEvent<HTMLAnchorElement | HTMLDivElement, MouseEvent>) => {
+        href: '',
+        onClick: (
+          e: React.MouseEvent<HTMLAnchorElement | HTMLDivElement, MouseEvent>,
+        ) => {
           e.preventDefault();
           setShowConfirm(true);
         },
@@ -39,7 +41,7 @@ const Page = ({ title, goBack, children }: PageProps) => {
 
   return (
     <div className="page">
-      <Head title={title || "Fuzio Multisig Manager"} />
+      <Head title={title || 'Fuzio Multisig Manager'} />
       <StackableContainer>
         {goBack ? (
           <StackableContainer
@@ -47,8 +49,10 @@ const Page = ({ title, goBack, children }: PageProps) => {
             lessPadding
             lessMargin
             divProps={{
-              style: { width: "fit-content", cursor: "pointer" },
-              onClick: linkProps.href ? () => router.push(linkProps.href) : linkProps.onClick,
+              onClick: linkProps.href
+                ? () => router.push(linkProps.href)
+                : linkProps.onClick,
+              style: { cursor: 'pointer', width: 'fit-content' },
             }}
           >
             <p>
@@ -56,7 +60,9 @@ const Page = ({ title, goBack, children }: PageProps) => {
             </p>
             {showConfirm ? (
               <>
-                <p style={{ marginTop: "8px" }}>Changes to any form will be lost if you go back</p>
+                <p style={{ marginTop: '8px' }}>
+                  Changes to any form will be lost if you go back
+                </p>
                 <p>Click again to confirm</p>
               </>
             ) : null}
@@ -65,9 +71,15 @@ const Page = ({ title, goBack, children }: PageProps) => {
         {children}
       </StackableContainer>
       <div className="footer-links">
-        <StackableContainer base lessPadding lessMargin>
+        <StackableContainer
+          base
+          lessPadding
+          lessMargin
+        >
           <p>
-            <a href="https://github.com/fuzio-defi-network/sei-multisig-ui">View on github</a>
+            <a href="https://github.com/fuzio-defi-network/sei-multisig-ui">
+              View on github
+            </a>
           </p>
         </StackableContainer>
       </div>
@@ -87,13 +99,22 @@ const Page = ({ title, goBack, children }: PageProps) => {
           right: 20px;
         }
       `}</style>
-      <style global jsx>{`
+      <style
+        global
+        jsx
+      >{`
         body {
-          font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu,
-            Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+          font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+            Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
+            sans-serif;
           color: white;
           min-height: 100vh;
-          background: linear-gradient(240.16deg, #2d3b5f 10.46%, #293351 54.88%, #232341 94.89%);
+          background: linear-gradient(
+            240.16deg,
+            #2d3b5f 10.46%,
+            #293351 54.88%,
+            #232341 94.89%
+          );
           font-size: 16px;
           margin: 0;
         }

@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 export interface RegistryChainApisRpc {
   readonly address: string;
@@ -70,10 +70,13 @@ export interface RegistryAssetsResponse {
   readonly data: { readonly assets: readonly RegistryAsset[] };
 }
 
-const registryGhUrl = "https://cdn.jsdelivr.net/gh/cosmos/chain-registry@master/";
+const registryGhUrl =
+  'https://cdn.jsdelivr.net/gh/cosmos/chain-registry@master/';
 
-export const getChainFromRegistry = async (chainGhName: string): Promise<RegistryChain> => {
-  const chainGhUrl = registryGhUrl + chainGhName + "/chain.json";
+export const getChainFromRegistry = async (
+  chainGhName: string,
+): Promise<RegistryChain> => {
+  const chainGhUrl = registryGhUrl + chainGhName + '/chain.json';
 
   const { data: chain }: RegistryChainResponse = await axios.get(chainGhUrl);
   return chain;
@@ -82,7 +85,7 @@ export const getChainFromRegistry = async (chainGhName: string): Promise<Registr
 export const getAssetsFromRegistry = async (
   chainGhName: string,
 ): Promise<readonly RegistryAsset[]> => {
-  const assetsGhUrl = registryGhUrl + chainGhName + "/assetlist.json";
+  const assetsGhUrl = registryGhUrl + chainGhName + '/assetlist.json';
 
   const {
     data: { assets },

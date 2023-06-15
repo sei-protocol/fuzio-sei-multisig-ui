@@ -1,15 +1,15 @@
-import { Decimal } from "@cosmjs/math";
-import { assert } from "@cosmjs/utils";
-import { useEffect, useState } from "react";
-import { MsgGetter } from "..";
-import { useAppContext } from "../../../../context/AppContext";
-import { exampleAddress } from "../../../../lib/displayHelpers";
+import { Decimal } from '@cosmjs/math';
+import { assert } from '@cosmjs/utils';
+import { useEffect, useState } from 'react';
+import { MsgGetter } from '..';
+import { useAppContext } from '../../../../context/AppContext';
+import { exampleAddress } from '../../../../lib/displayHelpers';
 import {
   isTxMsgExecuteContract,
   isTxMsgInstantiateContract,
   isTxMsgMigrateContract,
   isTxMsgUpdateAdmin,
-} from "../../../../lib/txMsgHelpers";
+} from '../../../../lib/txMsgHelpers';
 import {
   TxMsg,
   TxMsgClearAdmin,
@@ -18,12 +18,12 @@ import {
   TxMsgInstantiateContract,
   TxMsgMigrateContract,
   TxMsgUpdateAdmin,
-} from "../../../../types/txMsg";
-import Input from "../../../inputs/Input";
-import StackableContainer from "../../../layout/StackableContainer";
-import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
-import { fromUtf8, toUtf8 } from "@cosmjs/encoding";
-import Long from "long";
+} from '../../../../types/txMsg';
+import Input from '../../../inputs/Input';
+import StackableContainer from '../../../layout/StackableContainer';
+import { MsgExecuteContract } from 'cosmjs-types/cosmwasm/wasm/v1/tx';
+import { fromUtf8, toUtf8 } from '@cosmjs/encoding';
+import Long from 'long';
 
 interface MsgClearAdminFormProps {
   readonly address: string;
@@ -31,25 +31,29 @@ interface MsgClearAdminFormProps {
   readonly deleteMsg: () => void;
 }
 
-const MsgClearAdminForm = ({ address, setMsgGetter, deleteMsg }: MsgClearAdminFormProps) => {
+const MsgClearAdminForm = ({
+  address,
+  setMsgGetter,
+  deleteMsg,
+}: MsgClearAdminFormProps) => {
   const { state } = useAppContext();
-  assert(state.chain.addressPrefix, "addressPrefix missing");
+  assert(state.chain.addressPrefix, 'addressPrefix missing');
 
-  const [contractAddress, setContractAddress] = useState("");
-  const [newAdmin, setNewAdmin] = useState("");
+  const [contractAddress, setContractAddress] = useState('');
+  const [newAdmin, setNewAdmin] = useState('');
 
-  const [validatorAddressError, setValidatorAddressError] = useState("");
-  const [amountError, setAmountError] = useState("");
+  const [validatorAddressError, setValidatorAddressError] = useState('');
+  const [amountError, setAmountError] = useState('');
 
   useEffect(() => {
     try {
-      assert(state.chain.denom, "denom missing");
+      assert(state.chain.denom, 'denom missing');
 
-      setValidatorAddressError("");
-      setAmountError("");
+      setValidatorAddressError('');
+      setAmountError('');
 
       const isMsgValid = (msg: TxMsg): msg is TxMsgUpdateAdmin => {
-        assert(state.chain.addressPrefix, "addressPrefix missing");
+        assert(state.chain.addressPrefix, 'addressPrefix missing');
 
         // const addressErrorMsg = checkAddress(validatorAddress, state.chain.addressPrefix);
         // if (addressErrorMsg) {
@@ -68,11 +72,11 @@ const MsgClearAdminForm = ({ address, setMsgGetter, deleteMsg }: MsgClearAdminFo
       };
 
       const msg: TxMsgClearAdmin = {
-        typeUrl: "/cosmwasm.wasm.v1.MsgClearAdmin",
+        typeUrl: '/cosmwasm.wasm.v1.MsgClearAdmin',
         value: {
-          sender: address,
           contract: contractAddress,
-          funds: [{ amount: "1000", denom: "usei" }],
+          funds: [{ amount: '1000', denom: 'usei' }],
+          sender: address,
         },
       };
 
@@ -92,8 +96,14 @@ const MsgClearAdminForm = ({ address, setMsgGetter, deleteMsg }: MsgClearAdminFo
   ]);
 
   return (
-    <StackableContainer lessPadding lessMargin>
-      <button className="remove" onClick={() => deleteMsg()}>
+    <StackableContainer
+      lessPadding
+      lessMargin
+    >
+      <button
+        className="remove"
+        onClick={() => deleteMsg()}
+      >
         ✕
       </button>
       <h2>MsgClearAdminContract</h2>

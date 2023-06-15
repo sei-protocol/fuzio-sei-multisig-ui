@@ -1,19 +1,19 @@
-import { MultisigThresholdPubkey, SinglePubkey } from "@cosmjs/amino";
-import { Account, StargateClient } from "@cosmjs/stargate";
-import { assert } from "@cosmjs/utils";
-import { Coin } from "cosmjs-types/cosmos/base/v1beta1/coin";
-import { useRouter } from "next/router";
-import { useCallback, useEffect, useState } from "react";
-import HashView from "../../../components/dataViews/HashView";
-import MultisigHoldings from "../../../components/dataViews/MultisigHoldings";
-import MultisigMembers from "../../../components/dataViews/MultisigMembers";
-import CreateTxForm from "../../../components/forms/CreateTxForm";
-import Button from "../../../components/inputs/Button";
-import Page from "../../../components/layout/Page";
-import StackableContainer from "../../../components/layout/StackableContainer";
-import { useAppContext } from "../../../context/AppContext";
-import { explorerLinkAccount } from "../../../lib/displayHelpers";
-import { getMultisigAccount } from "../../../lib/multisigHelpers";
+import { MultisigThresholdPubkey, SinglePubkey } from '@cosmjs/amino';
+import { Account, StargateClient } from '@cosmjs/stargate';
+import { assert } from '@cosmjs/utils';
+import { Coin } from 'cosmjs-types/cosmos/base/v1beta1/coin';
+import { useRouter } from 'next/router';
+import { useCallback, useEffect, useState } from 'react';
+import HashView from '../../../components/dataViews/HashView';
+import MultisigHoldings from '../../../components/dataViews/MultisigHoldings';
+import MultisigMembers from '../../../components/dataViews/MultisigMembers';
+import CreateTxForm from '../../../components/forms/CreateTxForm';
+import Button from '../../../components/inputs/Button';
+import Page from '../../../components/layout/Page';
+import StackableContainer from '../../../components/layout/StackableContainer';
+import { useAppContext } from '../../../context/AppContext';
+import { explorerLinkAccount } from '../../../lib/displayHelpers';
+import { getMultisigAccount } from '../../../lib/multisigHelpers';
 
 function participantPubkeysFromMultisig(
   multisig: MultisigThresholdPubkey,
@@ -24,7 +24,7 @@ function participantPubkeysFromMultisig(
 const Multipage = () => {
   const router = useRouter();
   const { state } = useAppContext();
-  assert(state.chain.addressPrefix, "address prefix missing");
+  assert(state.chain.addressPrefix, 'address prefix missing');
 
   const [holdings, setHoldings] = useState<readonly Coin[]>([]);
   const [accountOnChain, setAccountOnChain] = useState<Account | null>(null);
@@ -33,20 +33,20 @@ const Multipage = () => {
 
   const multisigAddress = router.query.address?.toString();
   const explorerHref = explorerLinkAccount(
-    process.env.NEXT_PUBLIC_EXPLORER_LINK_ACCOUNT || "",
-    multisigAddress || "",
+    process.env.NEXT_PUBLIC_EXPLORER_LINK_ACCOUNT || '',
+    multisigAddress || '',
   );
 
   const fetchMultisig = useCallback(
     async (address: string) => {
       setAccountError(null);
       try {
-        assert(state.chain.nodeAddress, "Node address missing");
+        assert(state.chain.nodeAddress, 'Node address missing');
         const client = await StargateClient.connect(state.chain.nodeAddress);
-        assert(state.chain.denom, "denom missing");
+        assert(state.chain.denom, 'denom missing');
         const tempHoldings = await client.getAllBalances(address);
         setHoldings(tempHoldings);
-        assert(state.chain.addressPrefix, "addressPrefix missing");
+        assert(state.chain.addressPrefix, 'addressPrefix missing');
         const [newPubkey, newAccountOnChain] = await getMultisigAccount(
           address,
           state.chain.addressPrefix,
@@ -54,10 +54,9 @@ const Multipage = () => {
         );
         setPubkey(newPubkey);
         setAccountOnChain(newAccountOnChain);
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
         setAccountError(error.message);
-        console.log("Account error:", error);
+        console.log('Account error:', error);
       }
     },
     [state.chain.addressPrefix, state.chain.denom, state.chain.nodeAddress],
@@ -70,12 +69,24 @@ const Multipage = () => {
   }, [fetchMultisig, multisigAddress]);
 
   return (
-    <Page goBack={{ pathname: "/", title: "home", needsConfirm: true }}>
+    <Page goBack={{ needsConfirm: true, pathname: '/', title: 'home' }}>
       <StackableContainer base>
         <StackableContainer>
+          {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
           <label>Multisig Address</label>
-          <h1>{multisigAddress ? <HashView hash={multisigAddress} /> : "No Address"}</h1>
-          {explorerHref ? <Button href={explorerHref} label="View in Explorer"></Button> : null}
+          <h1>
+            {multisigAddress ? (
+              <HashView hash={multisigAddress} />
+            ) : (
+              'No Address'
+            )}
+          </h1>
+          {explorerHref ? (
+            <Button
+              href={explorerHref}
+              label="View in Explorer"
+            ></Button>
+          ) : null}
         </StackableContainer>
         {pubkey ? (
           <MultisigMembers
@@ -92,8 +103,8 @@ const Multipage = () => {
             <StackableContainer lessPadding>
               <h2>New transaction</h2>
               <p>
-                Once a transaction is created, it can be signed by the multisig members, and then
-                broadcast.
+                Once a transaction is created, it can be signed by the multisig
+                members, and then broadcast.
               </p>
             </StackableContainer>
           </div>
@@ -104,27 +115,31 @@ const Multipage = () => {
               {accountError ? (
                 <>
                   <p>
-                    This multisig address's pubkeys are not available, and so it cannot be used with
-                    this tool.
+                    This multisig address's pubkeys are not available, and so it
+                    cannot be used with this tool.
                   </p>
                   <p>
-                    You can recreate it with this tool here, or sign and broadcast a transaction
-                    with the tool you used to create it. Either option will make the pubkeys
-                    accessible and will allow this tool to use this multisig fully.
+                    You can recreate it with this tool here, or sign and
+                    broadcast a transaction with the tool you used to create it.
+                    Either option will make the pubkeys accessible and will
+                    allow this tool to use this multisig fully.
                   </p>
                 </>
               ) : null}
               {!!accountOnChain ? (
                 <p>
-                  An account needs to be present on chain before creating a transaction. Send some
-                  tokens to the address first.
+                  An account needs to be present on chain before creating a
+                  transaction. Send some tokens to the address first.
                 </p>
               ) : null}
             </div>
           </StackableContainer>
         ) : null}
         {accountOnChain && multisigAddress ? (
-          <CreateTxForm senderAddress={multisigAddress} accountOnChain={accountOnChain} />
+          <CreateTxForm
+            senderAddress={multisigAddress}
+            accountOnChain={accountOnChain}
+          />
         ) : null}
       </StackableContainer>
       <style jsx>{`

@@ -1,13 +1,13 @@
-import { Decimal } from "@cosmjs/math";
-import { assert } from "@cosmjs/utils";
-import { useEffect, useState } from "react";
-import { MsgGetter } from "..";
-import { useAppContext } from "../../../../context/AppContext";
-import { checkAddress, exampleAddress } from "../../../../lib/displayHelpers";
-import { isTxMsgDelegate } from "../../../../lib/txMsgHelpers";
-import { TxMsg, TxMsgDelegate } from "../../../../types/txMsg";
-import Input from "../../../inputs/Input";
-import StackableContainer from "../../../layout/StackableContainer";
+import { Decimal } from '@cosmjs/math';
+import { assert } from '@cosmjs/utils';
+import { useEffect, useState } from 'react';
+import { MsgGetter } from '..';
+import { useAppContext } from '../../../../context/AppContext';
+import { checkAddress, exampleAddress } from '../../../../lib/displayHelpers';
+import { isTxMsgDelegate } from '../../../../lib/txMsgHelpers';
+import { TxMsg, TxMsgDelegate } from '../../../../types/txMsg';
+import Input from '../../../inputs/Input';
+import StackableContainer from '../../../layout/StackableContainer';
 
 interface MsgDelegateFormProps {
   readonly delegatorAddress: string;
@@ -15,27 +15,34 @@ interface MsgDelegateFormProps {
   readonly deleteMsg: () => void;
 }
 
-const MsgDelegateForm = ({ delegatorAddress, setMsgGetter, deleteMsg }: MsgDelegateFormProps) => {
+const MsgDelegateForm = ({
+  delegatorAddress,
+  setMsgGetter,
+  deleteMsg,
+}: MsgDelegateFormProps) => {
   const { state } = useAppContext();
-  assert(state.chain.addressPrefix, "addressPrefix missing");
+  assert(state.chain.addressPrefix, 'addressPrefix missing');
 
-  const [validatorAddress, setValidatorAddress] = useState("");
-  const [amount, setAmount] = useState("0");
+  const [validatorAddress, setValidatorAddress] = useState('');
+  const [amount, setAmount] = useState('0');
 
-  const [validatorAddressError, setValidatorAddressError] = useState("");
-  const [amountError, setAmountError] = useState("");
+  const [validatorAddressError, setValidatorAddressError] = useState('');
+  const [amountError, setAmountError] = useState('');
 
   useEffect(() => {
     try {
-      assert(state.chain.denom, "denom missing");
+      assert(state.chain.denom, 'denom missing');
 
-      setValidatorAddressError("");
-      setAmountError("");
+      setValidatorAddressError('');
+      setAmountError('');
 
       const isMsgValid = (msg: TxMsg): msg is TxMsgDelegate => {
-        assert(state.chain.addressPrefix, "addressPrefix missing");
+        assert(state.chain.addressPrefix, 'addressPrefix missing');
 
-        const addressErrorMsg = checkAddress(validatorAddress, state.chain.addressPrefix);
+        const addressErrorMsg = checkAddress(
+          validatorAddress,
+          state.chain.addressPrefix,
+        );
         if (addressErrorMsg) {
           setValidatorAddressError(
             `Invalid address for network ${state.chain.chainId}: ${addressErrorMsg}`,
@@ -44,7 +51,7 @@ const MsgDelegateForm = ({ delegatorAddress, setMsgGetter, deleteMsg }: MsgDeleg
         }
 
         if (!amount || Number(amount) <= 0) {
-          setAmountError("Amount must be greater than 0");
+          setAmountError('Amount must be greater than 0');
           return false;
         }
 
@@ -52,16 +59,16 @@ const MsgDelegateForm = ({ delegatorAddress, setMsgGetter, deleteMsg }: MsgDeleg
       };
 
       const amountInAtomics = Decimal.fromUserInput(
-        amount || "0",
+        amount || '0',
         Number(state.chain.displayDenomExponent),
       ).atomics;
 
       const msg: TxMsgDelegate = {
-        typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
+        typeUrl: '/cosmos.staking.v1beta1.MsgDelegate',
         value: {
+          amount: { amount: amountInAtomics, denom: state.chain.denom },
           delegatorAddress,
           validatorAddress,
-          amount: { amount: amountInAtomics, denom: state.chain.denom },
         },
       };
 
@@ -79,8 +86,14 @@ const MsgDelegateForm = ({ delegatorAddress, setMsgGetter, deleteMsg }: MsgDeleg
   ]);
 
   return (
-    <StackableContainer lessPadding lessMargin>
-      <button className="remove" onClick={() => deleteMsg()}>
+    <StackableContainer
+      lessPadding
+      lessMargin
+    >
+      <button
+        className="remove"
+        onClick={() => deleteMsg()}
+      >
         ✕
       </button>
       <h2>MsgDelegate</h2>

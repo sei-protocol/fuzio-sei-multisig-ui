@@ -1,8 +1,12 @@
-import React from "react";
-import { isSecp256k1Pubkey, pubkeyToAddress, SinglePubkey } from "@cosmjs/amino";
+import React from 'react';
+import {
+  isSecp256k1Pubkey,
+  pubkeyToAddress,
+  SinglePubkey,
+} from '@cosmjs/amino';
 
-import HashView from "./HashView";
-import StackableContainer from "../layout/StackableContainer";
+import HashView from './HashView';
+import StackableContainer from '../layout/StackableContainer';
 
 interface Props {
   /** Pubkeys of the multisig members */
@@ -24,9 +28,14 @@ const MultisigMembers = (props: Props) => (
           {props.members.map((pubkey) => {
             const address = pubkeyToAddress(pubkey, props.addressPrefix);
             // simplePubkey is base64 encoded compressed secp256k1 in almost every case. The fallback is added to be safe though.
-            const simplePubkey = isSecp256k1Pubkey(pubkey) ? pubkey.value : `${pubkey.type} pubkey`;
+            const simplePubkey = isSecp256k1Pubkey(pubkey)
+              ? pubkey.value
+              : `${pubkey.type} pubkey`;
             return (
-              <li key={address} className="info">
+              <li
+                key={address}
+                className="info"
+              >
                 <HashView hash={`${address} (${simplePubkey})`} />
               </li>
             );

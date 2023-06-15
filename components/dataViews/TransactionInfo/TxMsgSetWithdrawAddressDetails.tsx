@@ -1,16 +1,19 @@
-import { TxMsgSetWithdrawAddress } from "../../../types/txMsg";
-import HashView from "../HashView";
+import { TxMsgSetWithdrawAddress } from '../../../types/txMsg';
+import HashView from '../HashView';
 
 interface TxMsgSetWithdrawAddressDetailsProps {
   readonly msg: TxMsgSetWithdrawAddress;
 }
 
-const TxMsgSetWithdrawAddressDetails = ({ msg }: TxMsgSetWithdrawAddressDetailsProps) => (
+const TxMsgSetWithdrawAddressDetails = ({
+  msg,
+}: TxMsgSetWithdrawAddressDetailsProps) => (
   <>
     <li>
       <h3>MsgSetWithdrawAddress</h3>
     </li>
     <li>
+      {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
       <label>Withdraw Address:</label>
       <div title={msg.value.withdrawAddress}>
         <HashView hash={msg.value.withdrawAddress} />

@@ -1,21 +1,15 @@
-import { Decimal } from "@cosmjs/math";
-import { assert } from "@cosmjs/utils";
-import { useEffect, useState } from "react";
-import { MsgGetter } from "..";
-import { useAppContext } from "../../../../context/AppContext";
-import { exampleAddress } from "../../../../lib/displayHelpers";
-import { isTxMsgExecuteContract, isTxMsgInstantiateContract } from "../../../../lib/txMsgHelpers";
-import {
-  TxMsg,
-  TxMsgDelegate,
-  TxMsgExecuteContract,
-  TxMsgInstantiateContract,
-} from "../../../../types/txMsg";
-import Input from "../../../inputs/Input";
-import StackableContainer from "../../../layout/StackableContainer";
-import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
-import { fromUtf8, toUtf8 } from "@cosmjs/encoding";
-import Long from "long";
+import { Decimal } from '@cosmjs/math';
+import { assert } from '@cosmjs/utils';
+import { useEffect, useState } from 'react';
+import { MsgGetter } from '..';
+import { useAppContext } from '../../../../context/AppContext';
+import { exampleAddress } from '../../../../lib/displayHelpers';
+import { isTxMsgInstantiateContract } from '../../../../lib/txMsgHelpers';
+import { TxMsg, TxMsgInstantiateContract } from '../../../../types/txMsg';
+import Input from '../../../inputs/Input';
+import StackableContainer from '../../../layout/StackableContainer';
+import { toUtf8 } from '@cosmjs/encoding';
+import Long from 'long';
 
 interface MsgInstantiateContractFormProps {
   readonly address: string;
@@ -29,25 +23,25 @@ const MsgInstantiateContractForm = ({
   deleteMsg,
 }: MsgInstantiateContractFormProps) => {
   const { state } = useAppContext();
-  assert(state.chain.addressPrefix, "addressPrefix missing");
+  assert(state.chain.addressPrefix, 'addressPrefix missing');
 
   const [adminAddress, setAdminAddress] = useState(address);
   const [label, setLabel] = useState(``);
-  const [codeId, setCodeId] = useState(Long.fromString("0"));
+  const [codeId, setCodeId] = useState(Long.fromString('0'));
   const [instantiateMessage, setInstantiateMessage] = useState(`{}`);
 
-  const [validatorAddressError, setValidatorAddressError] = useState("");
-  const [amountError, setAmountError] = useState("");
+  const [validatorAddressError, setValidatorAddressError] = useState('');
+  const [amountError, setAmountError] = useState('');
 
   useEffect(() => {
     try {
-      assert(state.chain.denom, "denom missing");
+      assert(state.chain.denom, 'denom missing');
 
-      setValidatorAddressError("");
-      setAmountError("");
+      setValidatorAddressError('');
+      setAmountError('');
 
       const isMsgValid = (msg: TxMsg): msg is TxMsgInstantiateContract => {
-        assert(state.chain.addressPrefix, "addressPrefix missing");
+        assert(state.chain.addressPrefix, 'addressPrefix missing');
 
         // const addressErrorMsg = checkAddress(validatorAddress, state.chain.addressPrefix);
         // if (addressErrorMsg) {
@@ -66,7 +60,7 @@ const MsgInstantiateContractForm = ({
       };
 
       const amountInAtomics = Decimal.fromUserInput(
-        "0",
+        '0',
         Number(state.chain.displayDenomExponent),
       ).atomics;
 
@@ -74,14 +68,14 @@ const MsgInstantiateContractForm = ({
 
       const test = toUtf8(instantiateMessage);
       const msg: TxMsgInstantiateContract = {
-        typeUrl: "/cosmwasm.wasm.v1.MsgInstantiateContract",
+        typeUrl: '/cosmwasm.wasm.v1.MsgInstantiateContract',
         value: {
-          sender: address,
-          label,
-          msg: test,
           admin: address,
           codeId: codeId.low,
-          funds: [{ amount: "1000", denom: "usei" }],
+          funds: [{ amount: '1000', denom: 'usei' }],
+          label,
+          msg: test,
+          sender: address,
         },
       };
 
@@ -103,8 +97,14 @@ const MsgInstantiateContractForm = ({
   ]);
 
   return (
-    <StackableContainer lessPadding lessMargin>
-      <button className="remove" onClick={() => deleteMsg()}>
+    <StackableContainer
+      lessPadding
+      lessMargin
+    >
+      <button
+        className="remove"
+        onClick={() => deleteMsg()}
+      >
         ✕
       </button>
       <h2>MsgInstantiateContract</h2>

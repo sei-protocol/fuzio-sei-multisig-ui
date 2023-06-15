@@ -1,7 +1,7 @@
-import { useAppContext } from "../../../context/AppContext";
-import { printableCoin } from "../../../lib/displayHelpers";
-import { TxMsgDelegate } from "../../../types/txMsg";
-import HashView from "../HashView";
+import { useAppContext } from '../../../context/AppContext';
+import { printableCoin } from '../../../lib/displayHelpers';
+import { TxMsgDelegate } from '../../../types/txMsg';
+import HashView from '../HashView';
 
 interface TxMsgDelegateDetailsProps {
   readonly msg: TxMsgDelegate;
@@ -16,10 +16,12 @@ const TxMsgDelegateDetails = ({ msg }: TxMsgDelegateDetailsProps) => {
         <h3>MsgDelegate</h3>
       </li>
       <li>
+        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
         <label>Amount:</label>
         <div>{printableCoin(msg.value.amount, state.chain)}</div>
       </li>
       <li>
+        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
         <label>Validator Address:</label>
         <div title={msg.value.validatorAddress}>
           <HashView hash={msg.value.validatorAddress} />

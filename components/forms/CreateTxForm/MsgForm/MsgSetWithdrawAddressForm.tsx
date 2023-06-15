@@ -1,12 +1,12 @@
-import { assert } from "@cosmjs/utils";
-import { useEffect, useState } from "react";
-import { MsgGetter } from "..";
-import { useAppContext } from "../../../../context/AppContext";
-import { checkAddress, exampleAddress } from "../../../../lib/displayHelpers";
-import { isTxMsgSetWithdrawAddress } from "../../../../lib/txMsgHelpers";
-import { TxMsg, TxMsgSetWithdrawAddress } from "../../../../types/txMsg";
-import Input from "../../../inputs/Input";
-import StackableContainer from "../../../layout/StackableContainer";
+import { assert } from '@cosmjs/utils';
+import { useEffect, useState } from 'react';
+import { MsgGetter } from '..';
+import { useAppContext } from '../../../../context/AppContext';
+import { checkAddress, exampleAddress } from '../../../../lib/displayHelpers';
+import { isTxMsgSetWithdrawAddress } from '../../../../lib/txMsgHelpers';
+import { TxMsg, TxMsgSetWithdrawAddress } from '../../../../types/txMsg';
+import Input from '../../../inputs/Input';
+import StackableContainer from '../../../layout/StackableContainer';
 
 interface MsgSetWithdrawAddressFormProps {
   readonly delegatorAddress: string;
@@ -20,19 +20,22 @@ const MsgSetWithdrawAddressForm = ({
   deleteMsg,
 }: MsgSetWithdrawAddressFormProps) => {
   const { state } = useAppContext();
-  assert(state.chain.addressPrefix, "addressPrefix missing");
+  assert(state.chain.addressPrefix, 'addressPrefix missing');
 
-  const [withdrawAddress, setWithdrawAddress] = useState("");
-  const [withdrawAddressError, setWithdrawAddressError] = useState("");
+  const [withdrawAddress, setWithdrawAddress] = useState('');
+  const [withdrawAddressError, setWithdrawAddressError] = useState('');
 
   useEffect(() => {
     try {
-      setWithdrawAddressError("");
+      setWithdrawAddressError('');
 
       const isMsgValid = (msg: TxMsg): msg is TxMsgSetWithdrawAddress => {
-        assert(state.chain.addressPrefix, "addressPrefix missing");
+        assert(state.chain.addressPrefix, 'addressPrefix missing');
 
-        const addressErrorMsg = checkAddress(withdrawAddress, state.chain.addressPrefix);
+        const addressErrorMsg = checkAddress(
+          withdrawAddress,
+          state.chain.addressPrefix,
+        );
         if (addressErrorMsg) {
           setWithdrawAddressError(
             `Invalid address for network ${state.chain.chainId}: ${addressErrorMsg}`,
@@ -44,7 +47,7 @@ const MsgSetWithdrawAddressForm = ({
       };
 
       const msg: TxMsgSetWithdrawAddress = {
-        typeUrl: "/cosmos.distribution.v1beta1.MsgSetWithdrawAddress",
+        typeUrl: '/cosmos.distribution.v1beta1.MsgSetWithdrawAddress',
         value: { delegatorAddress, withdrawAddress },
       };
 
@@ -59,8 +62,14 @@ const MsgSetWithdrawAddressForm = ({
   ]);
 
   return (
-    <StackableContainer lessPadding lessMargin>
-      <button className="remove" onClick={() => deleteMsg()}>
+    <StackableContainer
+      lessPadding
+      lessMargin
+    >
+      <button
+        className="remove"
+        onClick={() => deleteMsg()}
+      >
         ✕
       </button>
       <h2>MsgSetWithdrawAddress</h2>

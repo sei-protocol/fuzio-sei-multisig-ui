@@ -1,17 +1,21 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import { createTransaction } from "../../../lib/graphqlHelpers";
+import type { NextApiRequest, NextApiResponse } from 'next';
+import { createTransaction } from '../../../lib/graphqlHelpers';
 
-export default async function transactionApi(req: NextApiRequest, res: NextApiResponse) {
+export default async function transactionApi(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
   switch (req.method) {
-    case "POST":
+    case 'POST':
       try {
         const data = req.body;
-        console.log("Function `createTransaction` invoked", data);
+        console.log('Function `createTransaction` invoked', data);
         const saveRes = await createTransaction(data.dataJSON);
-        console.log("success", saveRes.data);
-        res.status(200).send({ transactionID: saveRes.data.data.createTransaction._id });
+        console.log('success', saveRes.data);
+        res
+          .status(200)
+          .send({ transactionID: saveRes.data.data.createTransaction._id });
         return;
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
         console.log(err);
         res.status(400).send(err.message);

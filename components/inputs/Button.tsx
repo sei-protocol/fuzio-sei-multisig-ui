@@ -1,4 +1,4 @@
-import Spinner from "../Spinner";
+import Spinner from '../Spinner';
 
 interface Props {
   primary?: boolean;
@@ -6,18 +6,20 @@ interface Props {
   disabled?: boolean;
   href?: string;
   label: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onClick?: () => any;
 }
 const Button = (props: Props) => (
   <>
     {props.href ? (
-      <a className={props.primary ? "primary button" : "button"} href={props.href}>
+      <a
+        className={props.primary ? 'primary button' : 'button'}
+        href={props.href}
+      >
         {props.label}
       </a>
     ) : (
       <button
-        className={props.primary ? "primary button" : "button"}
+        className={props.primary ? 'primary button' : 'button'}
         onClick={props.disabled || props.loading ? () => {} : props.onClick}
         disabled={props.disabled}
         data-loading={props.loading}
@@ -54,7 +56,7 @@ const Button = (props: Props) => (
         margin-top: 0;
       }
       button:disabled,
-      button[data-loading="true"] {
+      button[data-loading='true'] {
         opacity: 0.5;
         cursor: initial;
       }

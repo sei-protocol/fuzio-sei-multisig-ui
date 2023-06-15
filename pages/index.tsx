@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react';
 
-import FindMultisigForm from "../components/forms/FindMultisigForm";
-import Page from "../components/layout/Page";
-import StackableContainer from "../components/layout/StackableContainer";
-import { useAppContext } from "../context/AppContext";
+import FindMultisigForm from '../components/forms/FindMultisigForm';
+import Page from '../components/layout/Page';
+import StackableContainer from '../components/layout/StackableContainer';
+import { useAppContext } from '../context/AppContext';
 
 const MultiPage = () => {
   const { state } = useAppContext();

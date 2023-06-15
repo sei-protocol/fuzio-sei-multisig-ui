@@ -1,60 +1,69 @@
-import React, { CSSProperties } from "react";
-import Select, { ControlProps } from "react-select";
+import React, { CSSProperties } from 'react';
+import Select, { ControlProps } from 'react-select';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const StyledSelect = (props: any) => {
   const customStyles = {
     control: (provided: CSSProperties, state: ControlProps) => ({
       ...provided,
-      borderRadius: "10px",
-      background: "none",
-      borderColor: state.isFocused ? "rgba(255, 255, 255, 1)" : "rgba(255, 255, 255, 0.5)",
-      borderWidth: "2px",
-      boxShadow: "none",
-      cursor: "pointer",
-      color: "white",
-      "&:hover": {
-        borderColor: "rgba(255, 255, 255, 1)",
+      '&:hover': {
+        borderColor: 'rgba(255, 255, 255, 1)',
       },
+      background: 'none',
+      borderColor: state.isFocused
+        ? 'rgba(255, 255, 255, 1)'
+        : 'rgba(255, 255, 255, 0.5)',
+      borderRadius: '10px',
+      borderWidth: '2px',
+      boxShadow: 'none',
+      color: 'white',
+      cursor: 'pointer',
     }),
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    option: (provided: CSSProperties, state: any) => ({
+
+    dropdownIndicator: (provided: CSSProperties) => ({
       ...provided,
-      background: state.isSelected ? "rgba(255, 255, 255, 0.2)" : "none",
-      color: "white",
-      cursor: "pointer",
-      "&:hover": {
-        background: "rgba(255, 255, 255, 0.2)",
+      '&:hover': {
+        color: 'rgba(255, 255, 255, 1)',
       },
+      color: 'rgba(255, 255, 255, 0.6)',
     }),
-    menu: (provided: CSSProperties) => ({
-      ...provided,
-      zIndex: 10,
-      borderRadius: "10px",
-      background: "#561253",
-    }),
-    singleValue: (provided: CSSProperties) => ({
-      ...provided,
-      color: "white",
-    }),
+
     input: (provided: CSSProperties) => ({
       ...provided,
-      color: "white",
+      color: 'white',
+    }),
+
+    menu: (provided: CSSProperties) => ({
+      ...provided,
+      background: '#561253',
+      borderRadius: '10px',
+      zIndex: 10,
+    }),
+
+    option: (provided: CSSProperties, state: any) => ({
+      ...provided,
+      '&:hover': {
+        background: 'rgba(255, 255, 255, 0.2)',
+      },
+      background: state.isSelected ? 'rgba(255, 255, 255, 0.2)' : 'none',
+      color: 'white',
+      cursor: 'pointer',
     }),
     placeholder: (provided: CSSProperties) => ({
       ...provided,
-      color: "rgba(255,255,255, 0.6)",
+      color: 'rgba(255,255,255, 0.6)',
     }),
-    dropdownIndicator: (provided: CSSProperties) => ({
+    singleValue: (provided: CSSProperties) => ({
       ...provided,
-      color: "rgba(255, 255, 255, 0.6)",
-      "&:hover": {
-        color: "rgba(255, 255, 255, 1)",
-      },
+      color: 'white',
     }),
   };
 
-  return <Select {...props} styles={customStyles} />;
+  return (
+    <Select
+      {...props}
+      styles={customStyles}
+    />
+  );
 };
 
 export default StyledSelect;

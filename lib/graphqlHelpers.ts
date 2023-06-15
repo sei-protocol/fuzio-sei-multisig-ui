@@ -1,11 +1,11 @@
-import axios from "axios";
-import { DbAccount, DbSignature, DbTransaction } from "../types";
+import axios from 'axios';
+import { DbAccount, DbSignature, DbTransaction } from '../types';
 
 // Graphql base request for Faunadb
 const graphqlReq = axios.create({
   // The fallback URL works for classic databases. See https://docs.fauna.com/fauna/current/learn/understanding/region_groups
   // for more information about regions.
-  baseURL: process.env.FAUNADB_URL || "https://graphql.fauna.com/graphql",
+  baseURL: process.env.FAUNADB_URL || 'https://graphql.fauna.com/graphql',
   headers: {
     Authorization: `Bearer ${process.env.FAUNADB_SECRET}`,
   },
@@ -20,7 +20,6 @@ const graphqlReq = axios.create({
 const createMultisig = async (multisig: DbAccount) => {
   console.log(multisig);
   return graphqlReq({
-    method: "POST",
     data: {
       query: `
         mutation {
@@ -36,6 +35,7 @@ const createMultisig = async (multisig: DbAccount) => {
         }
       `,
     },
+    method: 'POST',
   });
 };
 
@@ -48,7 +48,6 @@ const createMultisig = async (multisig: DbAccount) => {
  */
 const getMultisig = async (address: string, chainId: string) => {
   return graphqlReq({
-    method: "POST",
     data: {
       query: `
         query {
@@ -60,6 +59,7 @@ const getMultisig = async (address: string, chainId: string) => {
         }
       `,
     },
+    method: 'POST',
   });
 };
 
@@ -71,7 +71,6 @@ const getMultisig = async (address: string, chainId: string) => {
  */
 const createTransaction = async (transaction: DbTransaction) => {
   return graphqlReq({
-    method: "POST",
     data: {
       query: `
         mutation {
@@ -81,6 +80,7 @@ const createTransaction = async (transaction: DbTransaction) => {
         }
       `,
     },
+    method: 'POST',
   });
 };
 
@@ -92,7 +92,6 @@ const createTransaction = async (transaction: DbTransaction) => {
  */
 const findTransactionByID = async (id: string) => {
   return graphqlReq({
-    method: "POST",
     data: {
       query: `
         query {
@@ -111,6 +110,7 @@ const findTransactionByID = async (id: string) => {
         }
       `,
     },
+    method: 'POST',
   });
 };
 
@@ -123,7 +123,6 @@ const findTransactionByID = async (id: string) => {
  */
 const updateTxHash = async (id: string, txHash: string) => {
   return graphqlReq({
-    method: "POST",
     data: {
       query: `
         mutation {
@@ -142,6 +141,7 @@ const updateTxHash = async (id: string, txHash: string) => {
         }
       `,
     },
+    method: 'POST',
   });
 };
 
@@ -152,9 +152,11 @@ const updateTxHash = async (id: string, txHash: string) => {
  * @param {string} transactionId id of the transaction to relate the signature with
  * @return Returns async function that makes a request to the faunadb graphql endpoint
  */
-const createSignature = async (signature: DbSignature, transactionId: string) => {
+const createSignature = async (
+  signature: DbSignature,
+  transactionId: string,
+) => {
   return graphqlReq({
-    method: "POST",
     data: {
       query: `
         mutation {
@@ -172,6 +174,7 @@ const createSignature = async (signature: DbSignature, transactionId: string) =>
         }
       `,
     },
+    method: 'POST',
   });
 };
 

@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from 'next/link';
 
 const DevHelper = () => (
   <div className="dev-helper">
@@ -12,7 +12,9 @@ const DevHelper = () => (
         <Link href="/create">Create Multisig</Link>
       </li>
       <li>
-        <Link href="/multi/cosmos10nmdf6nt2qzvgn9q2nuwmmfc359yfesmu3gw22">View Multisig</Link>
+        <Link href="/multi/cosmos10nmdf6nt2qzvgn9q2nuwmmfc359yfesmu3gw22">
+          View Multisig
+        </Link>
       </li>
       <li>
         <Link href="/multi/cosmos10nmdf6nt2qzvgn9q2nuwmmfc359yfesmu3gw22/transaction/295630000375202310">
@@ -20,7 +22,9 @@ const DevHelper = () => (
         </Link>
       </li>
     </ul>
-    <Link href="https://github.com/samepant/cosmoshub-legacy-multisig">View on Github</Link>
+    <Link href="https://github.com/samepant/cosmoshub-legacy-multisig">
+      View on Github
+    </Link>
 
     <style jsx>{`
       .dev-helper {

@@ -1,16 +1,17 @@
-import { fromUtf8 } from "@cosmjs/encoding";
-import { useAppContext } from "../../../context/AppContext";
-import { printableCoin } from "../../../lib/displayHelpers";
-import { TxMsgMigrateContract } from "../../../types/txMsg";
-import { useEffect, useState } from "react";
-import { JsonView, darkStyles, defaultStyles } from "react-json-view-lite";
-import "react-json-view-lite/dist/index.css";
+import { fromUtf8 } from '@cosmjs/encoding';
+import { useAppContext } from '../../../context/AppContext';
+import { TxMsgMigrateContract } from '../../../types/txMsg';
+import { useEffect, useState } from 'react';
+import { JsonView, darkStyles } from 'react-json-view-lite';
+import 'react-json-view-lite/dist/index.css';
 
 interface TxMsgMigrateContractDetailsProps {
   readonly msg: TxMsgMigrateContract;
 }
 
-const TxMsgMigrateContractDetails = ({ msg }: TxMsgMigrateContractDetailsProps) => {
+const TxMsgMigrateContractDetails = ({
+  msg,
+}: TxMsgMigrateContractDetailsProps) => {
   const { state } = useAppContext();
   const [uint8, setUint8] = useState<Array<number>>([]);
   const [uint8Array, setUint8Array] = useState<Uint8Array>();
@@ -46,14 +47,17 @@ const TxMsgMigrateContractDetails = ({ msg }: TxMsgMigrateContractDetailsProps) 
         <h3>MsgMigrateContract</h3>
       </li>
       <li>
+        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
         <label>Sender Address:</label>
         <div>{msg.value.sender}</div>
       </li>
       <li>
+        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
         <label>Contract Address:</label>
         <div>{msg.value.contract}</div>
       </li>
       <li>
+        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
         <label>New Code ID:</label>
         <div>{msg.value.codeId}</div>
       </li>
@@ -68,6 +72,7 @@ const TxMsgMigrateContractDetails = ({ msg }: TxMsgMigrateContractDetailsProps) 
 
       {executeMessage && (
         <li>
+          {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
           <label>Migrate Message:</label>
           <JsonView
             data={executeMessage}

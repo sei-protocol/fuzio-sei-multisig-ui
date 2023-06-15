@@ -1,13 +1,13 @@
-import { Decimal } from "@cosmjs/math";
-import { assert } from "@cosmjs/utils";
-import { useEffect, useState } from "react";
-import { MsgGetter } from "..";
-import { useAppContext } from "../../../../context/AppContext";
-import { checkAddress, exampleAddress } from "../../../../lib/displayHelpers";
-import { isTxMsgUndelegate } from "../../../../lib/txMsgHelpers";
-import { TxMsg, TxMsgUndelegate } from "../../../../types/txMsg";
-import Input from "../../../inputs/Input";
-import StackableContainer from "../../../layout/StackableContainer";
+import { Decimal } from '@cosmjs/math';
+import { assert } from '@cosmjs/utils';
+import { useEffect, useState } from 'react';
+import { MsgGetter } from '..';
+import { useAppContext } from '../../../../context/AppContext';
+import { checkAddress, exampleAddress } from '../../../../lib/displayHelpers';
+import { isTxMsgUndelegate } from '../../../../lib/txMsgHelpers';
+import { TxMsg, TxMsgUndelegate } from '../../../../types/txMsg';
+import Input from '../../../inputs/Input';
+import StackableContainer from '../../../layout/StackableContainer';
 
 interface MsgUndelegateFormProps {
   readonly delegatorAddress: string;
@@ -21,25 +21,28 @@ const MsgUndelegateForm = ({
   deleteMsg,
 }: MsgUndelegateFormProps) => {
   const { state } = useAppContext();
-  assert(state.chain.addressPrefix, "addressPrefix missing");
+  assert(state.chain.addressPrefix, 'addressPrefix missing');
 
-  const [validatorAddress, setValidatorAddress] = useState("");
-  const [amount, setAmount] = useState("0");
+  const [validatorAddress, setValidatorAddress] = useState('');
+  const [amount, setAmount] = useState('0');
 
-  const [validatorAddressError, setValidatorAddressError] = useState("");
-  const [amountError, setAmountError] = useState("");
+  const [validatorAddressError, setValidatorAddressError] = useState('');
+  const [amountError, setAmountError] = useState('');
 
   useEffect(() => {
     try {
-      assert(state.chain.denom, "denom missing");
+      assert(state.chain.denom, 'denom missing');
 
-      setValidatorAddressError("");
-      setAmountError("");
+      setValidatorAddressError('');
+      setAmountError('');
 
       const isMsgValid = (msg: TxMsg): msg is TxMsgUndelegate => {
-        assert(state.chain.addressPrefix, "addressPrefix missing");
+        assert(state.chain.addressPrefix, 'addressPrefix missing');
 
-        const addressErrorMsg = checkAddress(validatorAddress, state.chain.addressPrefix);
+        const addressErrorMsg = checkAddress(
+          validatorAddress,
+          state.chain.addressPrefix,
+        );
         if (addressErrorMsg) {
           setValidatorAddressError(
             `Invalid address for network ${state.chain.chainId}: ${addressErrorMsg}`,
@@ -48,7 +51,7 @@ const MsgUndelegateForm = ({
         }
 
         if (!amount || Number(amount) <= 0) {
-          setAmountError("Amount must be greater than 0");
+          setAmountError('Amount must be greater than 0');
           return false;
         }
 
@@ -56,16 +59,16 @@ const MsgUndelegateForm = ({
       };
 
       const amountInAtomics = Decimal.fromUserInput(
-        amount || "0",
+        amount || '0',
         Number(state.chain.displayDenomExponent),
       ).atomics;
 
       const msg: TxMsgUndelegate = {
-        typeUrl: "/cosmos.staking.v1beta1.MsgUndelegate",
+        typeUrl: '/cosmos.staking.v1beta1.MsgUndelegate',
         value: {
+          amount: { amount: amountInAtomics, denom: state.chain.denom },
           delegatorAddress,
           validatorAddress,
-          amount: { amount: amountInAtomics, denom: state.chain.denom },
         },
       };
 
@@ -83,8 +86,14 @@ const MsgUndelegateForm = ({
   ]);
 
   return (
-    <StackableContainer lessPadding lessMargin>
-      <button className="remove" onClick={() => deleteMsg()}>
+    <StackableContainer
+      lessPadding
+      lessMargin
+    >
+      <button
+        className="remove"
+        onClick={() => deleteMsg()}
+      >
         ✕
       </button>
       <h2>MsgUndelegate</h2>
