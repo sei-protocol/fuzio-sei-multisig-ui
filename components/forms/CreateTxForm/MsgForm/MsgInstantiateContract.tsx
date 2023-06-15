@@ -10,6 +10,11 @@ import Input from '../../../inputs/Input';
 import StackableContainer from '../../../layout/StackableContainer';
 import { toUtf8 } from '@cosmjs/encoding';
 import Long from 'long';
+import { Coin } from '@cosmjs/amino';
+import {
+  convertMicroDenomToDenom,
+  convertDenomToMicroDenom,
+} from '../../../../lib/helpers';
 
 interface MsgInstantiateContractFormProps {
   readonly address: string;
@@ -29,6 +34,7 @@ const MsgInstantiateContractForm = ({
   const [label, setLabel] = useState(``);
   const [codeId, setCodeId] = useState(Long.fromString('0'));
   const [instantiateMessage, setInstantiateMessage] = useState(`{}`);
+  const [funds, setFunds] = useState<Coin>({ amount: '100000', denom: 'usei' });
 
   const [validatorAddressError, setValidatorAddressError] = useState('');
   const [amountError, setAmountError] = useState('');
@@ -72,7 +78,7 @@ const MsgInstantiateContractForm = ({
         value: {
           admin: address,
           codeId: codeId.low,
-          funds: [{ amount: '1000', denom: 'usei' }],
+          funds: [funds],
           label,
           msg: test,
           sender: address,
@@ -87,6 +93,7 @@ const MsgInstantiateContractForm = ({
     address,
     codeId,
     label,
+    funds,
     adminAddress,
     instantiateMessage,
     setMsgGetter,
@@ -150,6 +157,44 @@ const MsgInstantiateContractForm = ({
           onChange={({ target }) => setInstantiateMessage(target.value)}
           error={amountError}
         />
+      </div>
+      <div
+        className="form-item"
+        style={{ display: 'flex', width: '100%' }}
+      >
+        <Input
+          label="Funds"
+          type="number"
+          name="funds"
+          value={convertMicroDenomToDenom(funds.amount, 6).toString()}
+          onChange={({ target }) =>
+            setFunds((prev) => {
+              return {
+                ...prev,
+                amount: convertDenomToMicroDenom(target.value, 6)
+                  .ceil()
+                  .toString(),
+              };
+            })
+          }
+          error={validatorAddressError}
+          placeholder={`E.g. ${exampleAddress(0, state.chain.addressPrefix)}`}
+        />
+        <select
+          onChange={({ target }) =>
+            setFunds((prev) => {
+              return {
+                ...prev,
+                denom: target.value,
+              };
+            })
+          }
+        >
+          <option value="usei">Sei</option>
+          <option value="factory/sei1nsfrq4m5rnwtq5f0awkzr6u9wpsycctjlgzr9q/ZIO">
+            Fuzio
+          </option>
+        </select>
       </div>
       <style jsx>{`
         .form-item {

@@ -9,6 +9,11 @@ import { TxMsg, TxMsgExecuteContract } from '../../../../types/txMsg';
 import Input from '../../../inputs/Input';
 import StackableContainer from '../../../layout/StackableContainer';
 import { toUtf8 } from '@cosmjs/encoding';
+import { Coin } from '@cosmjs/amino';
+import {
+  convertDenomToMicroDenom,
+  convertMicroDenomToDenom,
+} from '../../../../lib/helpers';
 
 interface MsgExecuteContractFormProps {
   readonly address: string;
@@ -27,6 +32,7 @@ const MsgExecuteContractForm = ({
   const [contractAddress, setContractAddress] = useState(
     'sei14n07r30dhcxnym2p2mahcd9my2nqfeq55a0jwdpph59cgumhhj4smp4974',
   );
+  const [funds, setFunds] = useState<Coin>({ amount: '100000', denom: 'usei' });
   const [executeMessage, setExecuteMessage] = useState(`{"swap":{}}`);
 
   const [validatorAddressError, setValidatorAddressError] = useState('');
@@ -58,17 +64,12 @@ const MsgExecuteContractForm = ({
         return isTxMsgExecuteContract(msg);
       };
 
-      const amountInAtomics = Decimal.fromUserInput(
-        '0',
-        Number(state.chain.displayDenomExponent),
-      ).atomics;
-
       const test = toUtf8(executeMessage);
       const msg: TxMsgExecuteContract = {
         typeUrl: '/cosmwasm.wasm.v1.MsgExecuteContract',
         value: {
           contract: contractAddress,
-          funds: [{ amount: '10000', denom: 'usei' }],
+          funds: [funds],
           msg: test,
           sender: address,
         },
@@ -81,6 +82,8 @@ const MsgExecuteContractForm = ({
   }, [
     address,
     contractAddress,
+    executeMessage,
+    funds,
     setMsgGetter,
     state.chain.addressPrefix,
     state.chain.chainId,
@@ -120,6 +123,44 @@ const MsgExecuteContractForm = ({
           onChange={({ target }) => setExecuteMessage(target.value)}
           error={amountError}
         />
+      </div>
+      <div
+        className="form-item"
+        style={{ display: 'flex', width: '100%' }}
+      >
+        <Input
+          label="Funds"
+          type="number"
+          name="funds"
+          value={convertMicroDenomToDenom(funds.amount, 6).toString()}
+          onChange={({ target }) =>
+            setFunds((prev) => {
+              return {
+                ...prev,
+                amount: convertDenomToMicroDenom(target.value, 6)
+                  .ceil()
+                  .toString(),
+              };
+            })
+          }
+          error={validatorAddressError}
+          placeholder={`E.g. ${exampleAddress(0, state.chain.addressPrefix)}`}
+        />
+        <select
+          onChange={({ target }) =>
+            setFunds((prev) => {
+              return {
+                ...prev,
+                denom: target.value,
+              };
+            })
+          }
+        >
+          <option value="usei">Sei</option>
+          <option value="factory/sei1nsfrq4m5rnwtq5f0awkzr6u9wpsycctjlgzr9q/ZIO">
+            Fuzio
+          </option>
+        </select>
       </div>
       <style jsx>{`
         .form-item {
