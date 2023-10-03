@@ -60,11 +60,9 @@ const ChainSelect = () => {
   });
 
   // Chain State
-  const [tempChainId, setChainId] = useState(state.chain.chainId);
-  const [tempNodeAddress, setNodeAddress] = useState(state.chain.nodeAddress);
-  const [tempAddressPrefix, setAddressPrefix] = useState(
-    state.chain.addressPrefix,
-  );
+  const [tempChainId, setChainId] = useState('sei');
+  const [tempNodeAddress, setNodeAddress] = useState('https://sei-rpc.polkachu.com/');
+  const [tempAddressPrefix, setAddressPrefix] = useState('sei');
   const [tempDenom, setDenom] = useState(state.chain.denom);
   const [tempDisplayDenom, setDisplayDenom] = useState(
     state.chain.displayDenom,
@@ -124,9 +122,9 @@ const ChainSelect = () => {
 
   useEffect(() => {
     // set settings form fields to new values
-    setChainId(state.chain.chainId);
-    setNodeAddress(state.chain.nodeAddress);
-    setAddressPrefix(state.chain.addressPrefix);
+    setChainId('sei');
+    setNodeAddress('https://sei-rpc.polkachu.com/');
+    setAddressPrefix('sei');
     setDenom(state.chain.denom);
     setDisplayDenom(state.chain.displayDenom);
     setDisplayDenomExponent(state.chain.displayDenomExponent);
@@ -158,7 +156,7 @@ const ChainSelect = () => {
       const assets = await getAssetsFromRegistry(chainOption.path);
       const firstAsset = assets[0];
 
-      const nodeAddress = await getNodeFromArray(chainData.apis.rpc);
+      const nodeAddress = ('https://sei-rpc.polkachu.com/');
       const explorerLink = getExplorerFromArray(chainData.explorers);
       const denom = firstAsset.base || '';
       const displayDenom = firstAsset.symbol || '';

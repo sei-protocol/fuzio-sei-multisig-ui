@@ -24,7 +24,7 @@ function participantPubkeysFromMultisig(
 const Multipage = () => {
   const router = useRouter();
   const { state } = useAppContext();
-  assert(state.chain.addressPrefix, 'address prefix missing');
+  assert('sei', 'address prefix missing');
 
   const [holdings, setHoldings] = useState<readonly Coin[]>([]);
   const [accountOnChain, setAccountOnChain] = useState<Account | null>(null);
@@ -41,15 +41,15 @@ const Multipage = () => {
     async (address: string) => {
       setAccountError(null);
       try {
-        assert(state.chain.nodeAddress, 'Node address missing');
-        const client = await StargateClient.connect(state.chain.nodeAddress);
+        assert('https://sei-rpc.polkachu.com/', 'Node address missing');
+        const client = await StargateClient.connect('https://sei-rpc.polkachu.com/');
         assert(state.chain.denom, 'denom missing');
         const tempHoldings = await client.getAllBalances(address);
         setHoldings(tempHoldings);
-        assert(state.chain.addressPrefix, 'addressPrefix missing');
+        assert('sei', 'addressPrefix missing');
         const [newPubkey, newAccountOnChain] = await getMultisigAccount(
           address,
-          state.chain.addressPrefix,
+          'sei',
           client,
         );
         setPubkey(newPubkey);
@@ -59,7 +59,7 @@ const Multipage = () => {
         console.log('Account error:', error);
       }
     },
-    [state.chain.addressPrefix, state.chain.denom, state.chain.nodeAddress],
+    ['sei', state.chain.denom, 'https://sei-rpc.polkachu.com/'],
   );
 
   useEffect(() => {
@@ -91,7 +91,7 @@ const Multipage = () => {
         {pubkey ? (
           <MultisigMembers
             members={participantPubkeysFromMultisig(pubkey)}
-            addressPrefix={state.chain.addressPrefix}
+            addressPrefix={'sei'}
             threshold={pubkey.value.threshold}
           />
         ) : null}

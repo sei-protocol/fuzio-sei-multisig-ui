@@ -64,8 +64,8 @@ const MultiSigForm = (props: Props) => {
   };
 
   const getPubkeyFromNode = async (address: string) => {
-    assert(state.chain.nodeAddress, 'nodeAddress missing');
-    const client = await StargateClient.connect(state.chain.nodeAddress);
+    assert('https://sei-rpc.polkachu.com/', 'nodeAddress missing');
+    const client = await StargateClient.connect('https://sei-rpc.polkachu.com/');
     const accountOnChain = await client.getAccount(address);
     console.log(accountOnChain);
     if (!accountOnChain || !accountOnChain.pubkey) {
@@ -114,17 +114,27 @@ const MultiSigForm = (props: Props) => {
     const compressedPubkeys = pubkeys.map((item) => item.compressedPubkey);
     let multisigAddress;
     try {
-      assert(state.chain.addressPrefix, 'addressPrefix missing');
-      assert(state.chain.chainId, 'chainId missing');
+      // Check that 'sei' and 'chainId' are provided, or replace them with the actual values
+      assert('sei', 'addressPrefix missing');
+      assert('sei', 'chainId missing');
+      
       multisigAddress = await createMultisigFromCompressedSecp256k1Pubkeys(
         compressedPubkeys,
         threshold,
-        state.chain.addressPrefix,
-        state.chain.chainId,
+        'sei',
+        'sei',
       );
+      
+      // Check if multisigAddress is undefined or empty
+      if (!multisigAddress) {
+        throw new Error('Failed to create multisig: multisigAddress is undefined or empty');
+      }
+  
       props.router.push(`/multi/${multisigAddress}`);
     } catch (error) {
-      console.log('Failed to creat multisig: ', error);
+      console.error('Failed to create multisig: ', error);
+    } finally {
+      setProcessing(false); // Ensure that processing is reset even if an error occurs
     }
   };
 
@@ -141,7 +151,7 @@ const MultiSigForm = (props: Props) => {
           <p>Add the addresses that will make up this multisig.</p>
         </StackableContainer>
         {pubkeys.map((pubkeyGroup, index) => {
-          assert(state.chain.addressPrefix, 'addressPrefix missing');
+          assert('sei', 'addressPrefix missing');
           return (
             <StackableContainer
               lessPadding
@@ -183,7 +193,7 @@ const MultiSigForm = (props: Props) => {
                     placeholder={`E.g. ${
                       pubkeyGroup.isPubkey
                         ? examplePubkey(index)
-                        : exampleAddress(index, state.chain.addressPrefix)
+                        : exampleAddress(index, 'sei')
                     }`}
                     error={pubkeyGroup.keyError}
                     onBlur={(

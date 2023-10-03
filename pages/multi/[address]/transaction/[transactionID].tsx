@@ -95,12 +95,12 @@ const TransactionPage = ({
   const fetchMultisig = useCallback(
     async (address: string) => {
       try {
-        assert(state.chain.nodeAddress, 'Node address missing');
-        const client = await StargateClient.connect(state.chain.nodeAddress);
-        assert(state.chain.addressPrefix, 'addressPrefix missing');
+        assert('https://sei-rpc.polkachu.com/', 'Node address missing');
+        const client = await StargateClient.connect('https://sei-rpc.polkachu.com/');
+        assert('sei', 'addressPrefix missing');
         const result = await getMultisigAccount(
           address,
-          state.chain.addressPrefix,
+          'sei',
           client,
         );
         setPubkey(result[0]);
@@ -110,7 +110,7 @@ const TransactionPage = ({
         console.log('Account error:', error);
       }
     },
-    [state.chain.addressPrefix, state.chain.nodeAddress],
+    ['sei', 'https://sei-rpc.polkachu.com/'],
   );
 
   useEffect(() => {
@@ -140,8 +140,8 @@ const TransactionPage = ({
           currentSignatures.map((s) => [s.address, fromBase64(s.signature)]),
         ),
       );
-      assert(state.chain.nodeAddress, 'Node address missing');
-      const broadcaster = await StargateClient.connect(state.chain.nodeAddress);
+      assert('https://sei-rpc.polkachu.com/', 'Node address missing');
+      const broadcaster = await StargateClient.connect('https://sei-rpc.polkachu.com/');
       const result = await broadcaster.broadcastTx(signedTxBytes);
       console.log(result);
       // eslint-disable-next-line canonical/id-match

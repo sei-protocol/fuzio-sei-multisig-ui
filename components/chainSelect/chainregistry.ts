@@ -71,7 +71,7 @@ export interface RegistryAssetsResponse {
 }
 
 const registryGhUrl =
-  'https://cdn.jsdelivr.net/gh/cosmos/chain-registry@master/';
+  'https://github.com/cosmos/chain-registry/tree/master/';
 
 export const getChainFromRegistry = async (
   chainGhName: string,

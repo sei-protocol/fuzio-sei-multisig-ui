@@ -85,7 +85,7 @@ function exampleAddress(index: number, chainAddressPrefix: string): string {
   for (let i = 0; i < index; ++i) {
     data = sha512(data).slice(0, data.length); // hash one time and trim to original length
   }
-  return toBech32(chainAddressPrefix, data);
+  return toBech32('sei', data);
 }
 
 /**

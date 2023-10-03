@@ -45,9 +45,9 @@ const TransactionSigning = (props: Props) => {
   const connectKeplr = useCallback(async () => {
     try {
       setLoading((oldLoading) => ({ ...oldLoading, keplr: true }));
-      assert(state.chain.chainId, 'chainId missing');
+      assert('sei', 'chainId missing');
 
-      await window.keplr.enable(state.chain.chainId);
+      await window.keplr.enable('sei');
       window.keplr.defaultOptions = {
         sign: {
           disableBalanceCheck: true,
@@ -55,7 +55,7 @@ const TransactionSigning = (props: Props) => {
           preferNoSetMemo: true,
         },
       };
-      const tempWalletAccount = await window.keplr.getKey(state.chain.chainId);
+      const tempWalletAccount = await window.keplr.getKey('sei');
       setWalletAccount(tempWalletAccount);
 
       const pubkey = toBase64(tempWalletAccount.pubKey);
@@ -83,7 +83,7 @@ const TransactionSigning = (props: Props) => {
     } finally {
       setLoading((newLoading) => ({ ...newLoading, keplr: false }));
     }
-  }, [memberPubkeys, props.signatures, state.chain.chainId]);
+  }, [memberPubkeys, props.signatures, 'sei']);
 
   useLayoutEffect(() => {
     const accountChangeKey = 'keplr_keystorechange';
@@ -98,7 +98,7 @@ const TransactionSigning = (props: Props) => {
   const connectLedger = async () => {
     try {
       setLoading((newLoading) => ({ ...newLoading, ledger: true }));
-      assert(state.chain.addressPrefix, 'addressPrefix missing');
+      assert('sei', 'addressPrefix missing');
 
       // Prepare ledger
       const ledgerTransport = await TransportWebUSB.create(120000, 120000);
@@ -106,7 +106,7 @@ const TransactionSigning = (props: Props) => {
       // Setup signer
       const offlineSigner = new LedgerSigner(ledgerTransport, {
         hdPaths: [makeCosmoshubPath(0)],
-        prefix: state.chain.addressPrefix,
+        prefix: 'sei',
       });
       const accounts = await offlineSigner.getAccounts();
       const tempWalletAccount: WalletAccount = {
@@ -147,11 +147,11 @@ const TransactionSigning = (props: Props) => {
   const signTransaction = async () => {
     try {
       setLoading((newLoading) => ({ ...newLoading, signing: true }));
-      assert(state.chain.chainId, 'chainId missing');
+      assert('sei', 'chainId missing');
 
       const offlineSigner =
         walletType === 'Keplr'
-          ? window.getOfflineSignerOnlyAmino(state.chain.chainId)
+          ? window.getOfflineSignerOnlyAmino('sei')
           : ledgerSigner;
 
       const signerAddress = walletAccount?.bech32Address;
@@ -160,7 +160,7 @@ const TransactionSigning = (props: Props) => {
 
       const signerData = {
         accountNumber: props.tx.accountNumber,
-        chainId: state.chain.chainId,
+        chainId: 'sei',
         sequence: props.tx.sequence,
       };
 

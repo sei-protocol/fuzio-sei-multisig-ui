@@ -22,7 +22,7 @@ const MsgMigrateContractForm = ({
   deleteMsg,
 }: MsgMigrateContractFormProps) => {
   const { state } = useAppContext();
-  assert(state.chain.addressPrefix, 'addressPrefix missing');
+  assert('sei', 'addressPrefix missing');
 
   const [contractAddress, setContractAddress] = useState('');
   const [migrateMessage, setMigrateMessage] = useState(`{}`);
@@ -39,12 +39,12 @@ const MsgMigrateContractForm = ({
       setAmountError('');
 
       const isMsgValid = (msg: TxMsg): msg is TxMsgMigrateContract => {
-        assert(state.chain.addressPrefix, 'addressPrefix missing');
+        assert('sei', 'addressPrefix missing');
 
-        // const addressErrorMsg = checkAddress(validatorAddress, state.chain.addressPrefix);
+        // const addressErrorMsg = checkAddress(validatorAddress, 'sei');
         // if (addressErrorMsg) {
         //   setValidatorAddressError(
-        //     `Invalid address for network ${state.chain.chainId}: ${addressErrorMsg}`,
+        //     `Invalid address for network ${'sei'}: ${addressErrorMsg}`,
         //   );
         //   return false;
         // }
@@ -79,8 +79,8 @@ const MsgMigrateContractForm = ({
     contractAddress,
     migrateMessage,
     setMsgGetter,
-    state.chain.addressPrefix,
-    state.chain.chainId,
+    'sei',
+    'sei',
     state.chain.denom,
     state.chain.displayDenomExponent,
   ]);
@@ -105,7 +105,7 @@ const MsgMigrateContractForm = ({
           value={contractAddress}
           onChange={({ target }) => setContractAddress(target.value)}
           error={validatorAddressError}
-          placeholder={`E.g. ${exampleAddress(0, state.chain.addressPrefix)}`}
+          placeholder={`E.g. ${exampleAddress(0, 'sei')}`}
         />
       </div>
       <div className="form-item">
@@ -116,7 +116,7 @@ const MsgMigrateContractForm = ({
           value={codeId.low}
           onChange={({ target }) => setCodeId(Long.fromString(target.value))}
           error={validatorAddressError}
-          placeholder={`E.g. ${exampleAddress(0, state.chain.addressPrefix)}`}
+          placeholder={`E.g. ${exampleAddress(0, 'sei')}`}
         />
       </div>
       <div className="form-item">
