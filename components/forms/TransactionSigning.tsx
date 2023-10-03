@@ -147,7 +147,7 @@ const TransactionSigning = (props: Props) => {
   const signTransaction = async () => {
     try {
       setLoading((newLoading) => ({ ...newLoading, signing: true }));
-      assert('sei', 'chainId missing');
+      assert('pacific-1', 'chainId missing');
 
       const offlineSigner =
         walletType === 'Keplr'
