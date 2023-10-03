@@ -151,7 +151,7 @@ const TransactionSigning = (props: Props) => {
 
       const offlineSigner =
         walletType === 'Keplr'
-          ? window.getOfflineSignerOnlyAmino('sei')
+          ? window.getOfflineSignerOnlyAmino('pacific-1')
           : ledgerSigner;
 
       const signerAddress = walletAccount?.bech32Address;
