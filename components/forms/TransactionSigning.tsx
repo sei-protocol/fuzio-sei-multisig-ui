@@ -160,7 +160,7 @@ const TransactionSigning = (props: Props) => {
 
       const signerData = {
         accountNumber: props.tx.accountNumber,
-        chainId: 'sei',
+        chainId: 'pacific-1',
         sequence: props.tx.sequence,
       };
 
