@@ -55,7 +55,7 @@ const TransactionSigning = (props: Props) => {
           preferNoSetMemo: true,
         },
       };
-      const tempWalletAccount = await window.keplr.getKey('sei');
+      const tempWalletAccount = await window.keplr.getKey('pacific-1');
       setWalletAccount(tempWalletAccount);
 
       const pubkey = toBase64(tempWalletAccount.pubKey);
