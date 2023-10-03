@@ -45,7 +45,7 @@ const TransactionSigning = (props: Props) => {
   const connectKeplr = useCallback(async () => {
     try {
       setLoading((oldLoading) => ({ ...oldLoading, keplr: true }));
-      assert('sei', 'chainId missing');
+      assert('pacific-1', 'chainId missing');
 
       await window.keplr.enable('sei');
       window.keplr.defaultOptions = {
