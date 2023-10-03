@@ -83,7 +83,7 @@ const TransactionSigning = (props: Props) => {
     } finally {
       setLoading((newLoading) => ({ ...newLoading, keplr: false }));
     }
-  }, [memberPubkeys, props.signatures, 'sei']);
+  }, [memberPubkeys, props.signatures, 'pacific-1']);
 
   useLayoutEffect(() => {
     const accountChangeKey = 'keplr_keystorechange';
