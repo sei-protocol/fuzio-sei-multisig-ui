@@ -20,7 +20,7 @@ const MsgSetWithdrawAddressForm = ({
   deleteMsg,
 }: MsgSetWithdrawAddressFormProps) => {
   const { state } = useAppContext();
-  assert(state.chain.addressPrefix, 'addressPrefix missing');
+  assert('sei', 'addressPrefix missing');
 
   const [withdrawAddress, setWithdrawAddress] = useState('');
   const [withdrawAddressError, setWithdrawAddressError] = useState('');
@@ -30,15 +30,15 @@ const MsgSetWithdrawAddressForm = ({
       setWithdrawAddressError('');
 
       const isMsgValid = (msg: TxMsg): msg is TxMsgSetWithdrawAddress => {
-        assert(state.chain.addressPrefix, 'addressPrefix missing');
+        assert('sei', 'addressPrefix missing');
 
         const addressErrorMsg = checkAddress(
           withdrawAddress,
-          state.chain.addressPrefix,
+          'sei',
         );
         if (addressErrorMsg) {
           setWithdrawAddressError(
-            `Invalid address for network ${state.chain.chainId}: ${addressErrorMsg}`,
+            `Invalid address for network ${'sei'}: ${addressErrorMsg}`,
           );
           return false;
         }
@@ -56,8 +56,8 @@ const MsgSetWithdrawAddressForm = ({
   }, [
     delegatorAddress,
     setMsgGetter,
-    state.chain.addressPrefix,
-    state.chain.chainId,
+    'sei',
+    'sei',
     withdrawAddress,
   ]);
 
@@ -80,7 +80,7 @@ const MsgSetWithdrawAddressForm = ({
           value={withdrawAddress}
           onChange={({ target }) => setWithdrawAddress(target.value)}
           error={withdrawAddressError}
-          placeholder={`E.g. ${exampleAddress(0, state.chain.addressPrefix)}`}
+          placeholder={`E.g. ${exampleAddress(0, 'sei')}`}
         />
       </div>
       <style jsx>{`

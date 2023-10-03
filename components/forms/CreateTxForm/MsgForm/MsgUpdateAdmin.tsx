@@ -36,7 +36,7 @@ const MsgUpdateAdminForm = ({
   deleteMsg,
 }: MsgUpdateAdminFormProps) => {
   const { state } = useAppContext();
-  assert(state.chain.addressPrefix, 'addressPrefix missing');
+  assert('sei', 'addressPrefix missing');
 
   const [contractAddress, setContractAddress] = useState('');
   const [newAdmin, setNewAdmin] = useState('');
@@ -52,12 +52,12 @@ const MsgUpdateAdminForm = ({
       setAmountError('');
 
       const isMsgValid = (msg: TxMsg): msg is TxMsgUpdateAdmin => {
-        assert(state.chain.addressPrefix, 'addressPrefix missing');
+        assert('sei', 'addressPrefix missing');
 
-        // const addressErrorMsg = checkAddress(validatorAddress, state.chain.addressPrefix);
+        // const addressErrorMsg = checkAddress(validatorAddress, 'sei');
         // if (addressErrorMsg) {
         //   setValidatorAddressError(
-        //     `Invalid address for network ${state.chain.chainId}: ${addressErrorMsg}`,
+        //     `Invalid address for network ${'sei'}: ${addressErrorMsg}`,
         //   );
         //   return false;
         // }
@@ -89,8 +89,8 @@ const MsgUpdateAdminForm = ({
     newAdmin,
     contractAddress,
     setMsgGetter,
-    state.chain.addressPrefix,
-    state.chain.chainId,
+    'sei',
+    'sei',
     state.chain.denom,
     state.chain.displayDenomExponent,
   ]);
@@ -115,7 +115,7 @@ const MsgUpdateAdminForm = ({
           value={contractAddress}
           onChange={({ target }) => setContractAddress(target.value)}
           error={validatorAddressError}
-          placeholder={`E.g. ${exampleAddress(0, state.chain.addressPrefix)}`}
+          placeholder={`E.g. ${exampleAddress(0, 'sei')}`}
         />
       </div>
       <div className="form-item">
@@ -126,7 +126,7 @@ const MsgUpdateAdminForm = ({
           value={newAdmin}
           onChange={({ target }) => setNewAdmin(target.value)}
           error={validatorAddressError}
-          placeholder={`E.g. ${exampleAddress(0, state.chain.addressPrefix)}`}
+          placeholder={`E.g. ${exampleAddress(0, 'sei')}`}
         />
       </div>
       <style jsx>{`

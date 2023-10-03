@@ -30,10 +30,10 @@ const FindMultisigForm = (props: Props) => {
       }
 
       try {
-        assert(state.chain.nodeAddress, 'Node address missing');
-        const client = await StargateClient.connect(state.chain.nodeAddress);
-        assert(state.chain.addressPrefix, 'addressPrefix missing');
-        await getMultisigAccount(address, state.chain.addressPrefix, client);
+        assert('https://sei-rpc.polkachu.com/', 'Node address missing');
+        const client = await StargateClient.connect('https://sei-rpc.polkachu.com/');
+        assert('sei', 'addressPrefix missing');
+        await getMultisigAccount(address, 'sei', client);
         setMultisigError('');
       } catch (error) {
         if (error instanceof Error) {
@@ -44,9 +44,9 @@ const FindMultisigForm = (props: Props) => {
         console.error('Multisig error:', error);
       }
     })();
-  }, [address, state.chain.addressPrefix, state.chain.nodeAddress]);
+  }, [address, 'sei', 'https://sei-rpc.polkachu.com/']);
 
-  assert(state.chain.addressPrefix, 'addressPrefix missing');
+  assert('sei', 'addressPrefix missing');
 
   return (
     <StackableContainer>
@@ -68,7 +68,7 @@ const FindMultisigForm = (props: Props) => {
           value={address}
           label="Multisig Address"
           name="address"
-          placeholder={`E.g. ${exampleAddress(0, state.chain.addressPrefix)}`}
+          placeholder={`E.g. ${exampleAddress(0, 'sei')}`}
           error={multisigError}
         />
         <Button

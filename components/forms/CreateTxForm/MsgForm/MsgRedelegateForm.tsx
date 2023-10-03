@@ -21,7 +21,7 @@ const MsgRedelegateForm = ({
   deleteMsg,
 }: MsgRedelegateFormProps) => {
   const { state } = useAppContext();
-  assert(state.chain.addressPrefix, 'addressPrefix missing');
+  assert('sei', 'addressPrefix missing');
 
   const [validatorSrcAddress, setValidatorSrcAddress] = useState('');
   const [validatorDstAddress, setValidatorDstAddress] = useState('');
@@ -40,26 +40,26 @@ const MsgRedelegateForm = ({
       setAmountError('');
 
       const isMsgValid = (msg: TxMsg): msg is TxMsgRedelegate => {
-        assert(state.chain.addressPrefix, 'addressPrefix missing');
+        assert('sei', 'addressPrefix missing');
 
         const srcAddressErrorMsg = checkAddress(
           validatorSrcAddress,
-          state.chain.addressPrefix,
+          'sei',
         );
         if (srcAddressErrorMsg) {
           setValidatorSrcAddressError(
-            `Invalid address for network ${state.chain.chainId}: ${srcAddressErrorMsg}`,
+            `Invalid address for network ${'sei'}: ${srcAddressErrorMsg}`,
           );
           return false;
         }
 
         const dstAddressErrorMsg = checkAddress(
           validatorDstAddress,
-          state.chain.addressPrefix,
+          'sei',
         );
         if (dstAddressErrorMsg) {
           setValidatorDstAddressError(
-            `Invalid address for network ${state.chain.chainId}: ${dstAddressErrorMsg}`,
+            `Invalid address for network ${'sei'}: ${dstAddressErrorMsg}`,
           );
           return false;
         }
@@ -93,8 +93,8 @@ const MsgRedelegateForm = ({
     amount,
     delegatorAddress,
     setMsgGetter,
-    state.chain.addressPrefix,
-    state.chain.chainId,
+    'sei',
+    'sei',
     state.chain.denom,
     state.chain.displayDenomExponent,
     validatorDstAddress,
@@ -120,7 +120,7 @@ const MsgRedelegateForm = ({
           value={validatorSrcAddress}
           onChange={({ target }) => setValidatorSrcAddress(target.value)}
           error={validatorSrcAddressError}
-          placeholder={`E.g. ${exampleAddress(0, state.chain.addressPrefix)}`}
+          placeholder={`E.g. ${exampleAddress(0, 'sei')}`}
         />
       </div>
       <div className="form-item">
@@ -130,7 +130,7 @@ const MsgRedelegateForm = ({
           value={validatorDstAddress}
           onChange={({ target }) => setValidatorDstAddress(target.value)}
           error={validatorDstAddressError}
-          placeholder={`E.g. ${exampleAddress(0, state.chain.addressPrefix)}`}
+          placeholder={`E.g. ${exampleAddress(0, 'sei')}`}
         />
       </div>
       <div className="form-item">

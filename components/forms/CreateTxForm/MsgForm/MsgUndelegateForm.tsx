@@ -21,7 +21,7 @@ const MsgUndelegateForm = ({
   deleteMsg,
 }: MsgUndelegateFormProps) => {
   const { state } = useAppContext();
-  assert(state.chain.addressPrefix, 'addressPrefix missing');
+  assert('sei', 'addressPrefix missing');
 
   const [validatorAddress, setValidatorAddress] = useState('');
   const [amount, setAmount] = useState('0');
@@ -37,15 +37,15 @@ const MsgUndelegateForm = ({
       setAmountError('');
 
       const isMsgValid = (msg: TxMsg): msg is TxMsgUndelegate => {
-        assert(state.chain.addressPrefix, 'addressPrefix missing');
+        assert('sei', 'addressPrefix missing');
 
         const addressErrorMsg = checkAddress(
           validatorAddress,
-          state.chain.addressPrefix,
+          'sei',
         );
         if (addressErrorMsg) {
           setValidatorAddressError(
-            `Invalid address for network ${state.chain.chainId}: ${addressErrorMsg}`,
+            `Invalid address for network ${'sei'}: ${addressErrorMsg}`,
           );
           return false;
         }
@@ -78,8 +78,8 @@ const MsgUndelegateForm = ({
     amount,
     delegatorAddress,
     setMsgGetter,
-    state.chain.addressPrefix,
-    state.chain.chainId,
+    'sei',
+    'sei',
     state.chain.denom,
     state.chain.displayDenomExponent,
     validatorAddress,
@@ -104,7 +104,7 @@ const MsgUndelegateForm = ({
           value={validatorAddress}
           onChange={({ target }) => setValidatorAddress(target.value)}
           error={validatorAddressError}
-          placeholder={`E.g. ${exampleAddress(0, state.chain.addressPrefix)}`}
+          placeholder={`E.g. ${exampleAddress(0, 'sei')}`}
         />
       </div>
       <div className="form-item">

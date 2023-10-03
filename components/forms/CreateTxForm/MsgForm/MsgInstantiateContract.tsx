@@ -28,7 +28,7 @@ const MsgInstantiateContractForm = ({
   deleteMsg,
 }: MsgInstantiateContractFormProps) => {
   const { state } = useAppContext();
-  assert(state.chain.addressPrefix, 'addressPrefix missing');
+  assert('sei', 'addressPrefix missing');
 
   const [adminAddress, setAdminAddress] = useState(address);
   const [label, setLabel] = useState(``);
@@ -47,12 +47,12 @@ const MsgInstantiateContractForm = ({
       setAmountError('');
 
       const isMsgValid = (msg: TxMsg): msg is TxMsgInstantiateContract => {
-        assert(state.chain.addressPrefix, 'addressPrefix missing');
+        assert('sei', 'addressPrefix missing');
 
-        // const addressErrorMsg = checkAddress(validatorAddress, state.chain.addressPrefix);
+        // const addressErrorMsg = checkAddress(validatorAddress, 'sei');
         // if (addressErrorMsg) {
         //   setValidatorAddressError(
-        //     `Invalid address for network ${state.chain.chainId}: ${addressErrorMsg}`,
+        //     `Invalid address for network ${'sei'}: ${addressErrorMsg}`,
         //   );
         //   return false;
         // }
@@ -97,8 +97,8 @@ const MsgInstantiateContractForm = ({
     adminAddress,
     instantiateMessage,
     setMsgGetter,
-    state.chain.addressPrefix,
-    state.chain.chainId,
+    'sei',
+    'sei',
     state.chain.denom,
     state.chain.displayDenomExponent,
   ]);
@@ -123,7 +123,7 @@ const MsgInstantiateContractForm = ({
           value={adminAddress}
           onChange={({ target }) => setAdminAddress(target.value)}
           error={validatorAddressError}
-          placeholder={`E.g. ${exampleAddress(0, state.chain.addressPrefix)}`}
+          placeholder={`E.g. ${exampleAddress(0, 'sei')}`}
         />
       </div>
       <div className="form-item">
@@ -178,7 +178,7 @@ const MsgInstantiateContractForm = ({
             })
           }
           error={validatorAddressError}
-          placeholder={`E.g. ${exampleAddress(0, state.chain.addressPrefix)}`}
+          placeholder={`E.g. ${exampleAddress(0, 'sei')}`}
         />
         <select
           onChange={({ target }) =>

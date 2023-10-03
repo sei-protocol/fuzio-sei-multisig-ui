@@ -20,7 +20,7 @@ const MsgClaimRewardsForm = ({
   deleteMsg,
 }: MsgClaimRewardsFormProps) => {
   const { state } = useAppContext();
-  assert(state.chain.addressPrefix, 'addressPrefix missing');
+  assert('sei', 'addressPrefix missing');
 
   const [validatorAddress, setValidatorAddress] = useState('');
   const [validatorAddressError, setValidatorAddressError] = useState('');
@@ -30,15 +30,15 @@ const MsgClaimRewardsForm = ({
       setValidatorAddressError('');
 
       const isMsgValid = (msg: TxMsg): msg is TxMsgClaimRewards => {
-        assert(state.chain.addressPrefix, 'addressPrefix missing');
+        assert('sei', 'addressPrefix missing');
 
         const addressErrorMsg = checkAddress(
           validatorAddress,
-          state.chain.addressPrefix,
+          'sei',
         );
         if (addressErrorMsg) {
           setValidatorAddressError(
-            `Invalid address for network ${state.chain.chainId}: ${addressErrorMsg}`,
+            `Invalid address for network ${'sei'}: ${addressErrorMsg}`,
           );
           return false;
         }
@@ -56,8 +56,8 @@ const MsgClaimRewardsForm = ({
   }, [
     delegatorAddress,
     setMsgGetter,
-    state.chain.addressPrefix,
-    state.chain.chainId,
+    'sei',
+    'sei',
     validatorAddress,
   ]);
 
@@ -80,7 +80,7 @@ const MsgClaimRewardsForm = ({
           value={validatorAddress}
           onChange={({ target }) => setValidatorAddress(target.value)}
           error={validatorAddressError}
-          placeholder={`E.g. ${exampleAddress(0, state.chain.addressPrefix)}`}
+          placeholder={`E.g. ${exampleAddress(0, 'sei')}`}
         />
       </div>
       <style jsx>{`

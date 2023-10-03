@@ -73,7 +73,7 @@ const CreateTxForm = ({
 
       const tx = {
         accountNumber: accountOnChain.accountNumber,
-        chainId: state.chain.chainId,
+        chainId: 'sei',
         fee: calculateFee(gasLimit, gasPrice),
         memo,
         msgs,

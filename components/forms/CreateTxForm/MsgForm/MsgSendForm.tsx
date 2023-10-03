@@ -21,7 +21,7 @@ const MsgSendForm = ({
   deleteMsg,
 }: MsgSendFormProps) => {
   const { state } = useAppContext();
-  assert(state.chain.addressPrefix, 'addressPrefix missing');
+  assert('sei', 'addressPrefix missing');
 
   const [toAddress, setToAddress] = useState('');
   const [amount, setAmount] = useState('0');
@@ -37,15 +37,15 @@ const MsgSendForm = ({
       setAmountError('');
 
       const isMsgValid = (msg: TxMsg): msg is TxMsgSend => {
-        assert(state.chain.addressPrefix, 'addressPrefix missing');
+        assert('sei', 'addressPrefix missing');
 
         const addressErrorMsg = checkAddress(
           toAddress,
-          state.chain.addressPrefix,
+          'sei',
         );
         if (addressErrorMsg) {
           setToAddressError(
-            `Invalid address for network ${state.chain.chainId}: ${addressErrorMsg}`,
+            `Invalid address for network ${'sei'}: ${addressErrorMsg}`,
           );
           return false;
         }
@@ -80,8 +80,8 @@ const MsgSendForm = ({
     amount,
     fromAddress,
     setMsgGetter,
-    state.chain.addressPrefix,
-    state.chain.chainId,
+    'sei',
+    'sei',
     state.chain.denom,
     state.chain.displayDenomExponent,
     toAddress,
@@ -106,7 +106,7 @@ const MsgSendForm = ({
           value={toAddress}
           onChange={({ target }) => setToAddress(target.value)}
           error={toAddressError}
-          placeholder={`E.g. ${exampleAddress(0, state.chain.addressPrefix)}`}
+          placeholder={`E.g. ${exampleAddress(0, 'sei')}`}
         />
       </div>
       <div className="form-item">
