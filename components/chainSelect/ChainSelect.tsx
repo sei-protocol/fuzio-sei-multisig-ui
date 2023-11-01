@@ -60,7 +60,7 @@ const ChainSelect = () => {
   });
 
   // Chain State
-  const [tempChainId, setChainId] = useState('sei');
+  const [tempChainId, setChainId] = useState('pacific-1');
   const [tempNodeAddress, setNodeAddress] = useState('https://rpc.wallet.pacific-1.sei.io');
   const [tempAddressPrefix, setAddressPrefix] = useState('sei');
   const [tempDenom, setDenom] = useState(state.chain.denom);
