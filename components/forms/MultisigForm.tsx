@@ -64,8 +64,8 @@ const MultiSigForm = (props: Props) => {
   };
 
   const getPubkeyFromNode = async (address: string) => {
-    assert('https://sei-rpc.polkachu.com/', 'nodeAddress missing');
-    const client = await StargateClient.connect('https://sei-rpc.polkachu.com/');
+    assert('https://rpc.wallet.pacific-1.sei.io', 'nodeAddress missing');
+    const client = await StargateClient.connect('https://rpc.wallet.pacific-1.sei.io');
     const accountOnChain = await client.getAccount(address);
     console.log(accountOnChain);
     if (!accountOnChain || !accountOnChain.pubkey) {

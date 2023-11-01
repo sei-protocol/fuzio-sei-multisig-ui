@@ -30,8 +30,8 @@ const FindMultisigForm = (props: Props) => {
       }
 
       try {
-        assert('https://sei-rpc.polkachu.com/', 'Node address missing');
-        const client = await StargateClient.connect('https://sei-rpc.polkachu.com/');
+        assert('https://rpc.wallet.pacific-1.sei.io', 'Node address missing');
+        const client = await StargateClient.connect('https://rpc.wallet.pacific-1.sei.io');
         assert('sei', 'addressPrefix missing');
         await getMultisigAccount(address, 'sei', client);
         setMultisigError('');
@@ -44,7 +44,7 @@ const FindMultisigForm = (props: Props) => {
         console.error('Multisig error:', error);
       }
     })();
-  }, [address, 'sei', 'https://sei-rpc.polkachu.com/']);
+  }, [address, 'sei', 'https://rpc.wallet.pacific-1.sei.io']);
 
   assert('sei', 'addressPrefix missing');
 

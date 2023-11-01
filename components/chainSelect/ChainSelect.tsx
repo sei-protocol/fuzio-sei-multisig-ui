@@ -61,7 +61,7 @@ const ChainSelect = () => {
 
   // Chain State
   const [tempChainId, setChainId] = useState('sei');
-  const [tempNodeAddress, setNodeAddress] = useState('https://sei-rpc.polkachu.com/');
+  const [tempNodeAddress, setNodeAddress] = useState('https://rpc.wallet.pacific-1.sei.io');
   const [tempAddressPrefix, setAddressPrefix] = useState('sei');
   const [tempDenom, setDenom] = useState(state.chain.denom);
   const [tempDisplayDenom, setDisplayDenom] = useState(
@@ -123,7 +123,7 @@ const ChainSelect = () => {
   useEffect(() => {
     // set settings form fields to new values
     setChainId('sei');
-    setNodeAddress('https://sei-rpc.polkachu.com/');
+    setNodeAddress('https://rpc.wallet.pacific-1.sei.io');
     setAddressPrefix('sei');
     setDenom(state.chain.denom);
     setDisplayDenom(state.chain.displayDenom);
@@ -156,7 +156,7 @@ const ChainSelect = () => {
       const assets = await getAssetsFromRegistry(chainOption.path);
       const firstAsset = assets[0];
 
-      const nodeAddress = ('https://sei-rpc.polkachu.com/');
+      const nodeAddress = ('https://rpc.wallet.pacific-1.sei.io');
       const explorerLink = getExplorerFromArray(chainData.explorers);
       const denom = firstAsset.base || '';
       const displayDenom = firstAsset.symbol || '';
